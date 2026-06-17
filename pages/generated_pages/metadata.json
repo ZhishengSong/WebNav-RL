@@ -1,0 +1,445 @@
+{
+  "shop_item_001": {
+    "page_id": "shop_item_001",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: SoundCore A20. Category: bluetooth earbuds. Price: $89. Rating: 4.8. Color: black.",
+    "elements": [],
+    "answer": "SoundCore A20",
+    "html_path": "pages/generated_pages/shop_item_001.html"
+  },
+  "shop_item_002": {
+    "page_id": "shop_item_002",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: BassFlow Mini. Category: bluetooth earbuds. Price: $59. Rating: 4.2. Color: blue.",
+    "elements": [],
+    "answer": "BassFlow Mini",
+    "html_path": "pages/generated_pages/shop_item_002.html"
+  },
+  "shop_item_003": {
+    "page_id": "shop_item_003",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: QuietLite Pro. Category: bluetooth earbuds. Price: $129. Rating: 4.7. Color: white.",
+    "elements": [],
+    "answer": "QuietLite Pro",
+    "html_path": "pages/generated_pages/shop_item_003.html"
+  },
+  "shop_item_004": {
+    "page_id": "shop_item_004",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: PixelPad S. Category: tablet. Price: $299. Rating: 4.6. Color: silver.",
+    "elements": [],
+    "answer": "PixelPad S",
+    "html_path": "pages/generated_pages/shop_item_004.html"
+  },
+  "shop_item_005": {
+    "page_id": "shop_item_005",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: NoteTab Air. Category: tablet. Price: $229. Rating: 4.4. Color: gray.",
+    "elements": [],
+    "answer": "NoteTab Air",
+    "html_path": "pages/generated_pages/shop_item_005.html"
+  },
+  "shop_item_006": {
+    "page_id": "shop_item_006",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: RunBeat Clip. Category: fitness tracker. Price: $69. Rating: 4.5. Color: green.",
+    "elements": [],
+    "answer": "RunBeat Clip",
+    "html_path": "pages/generated_pages/shop_item_006.html"
+  },
+  "shop_item_007": {
+    "page_id": "shop_item_007",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: PulseBand Neo. Category: fitness tracker. Price: $99. Rating: 4.7. Color: black.",
+    "elements": [],
+    "answer": "PulseBand Neo",
+    "html_path": "pages/generated_pages/shop_item_007.html"
+  },
+  "shop_item_008": {
+    "page_id": "shop_item_008",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: DeskLamp Halo. Category: desk lamp. Price: $45. Rating: 4.3. Color: white.",
+    "elements": [],
+    "answer": "DeskLamp Halo",
+    "html_path": "pages/generated_pages/shop_item_008.html"
+  },
+  "shop_item_009": {
+    "page_id": "shop_item_009",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: FocusLamp Max. Category: desk lamp. Price: $78. Rating: 4.9. Color: black.",
+    "elements": [],
+    "answer": "FocusLamp Max",
+    "html_path": "pages/generated_pages/shop_item_009.html"
+  },
+  "shop_item_010": {
+    "page_id": "shop_item_010",
+    "page_type": "shopping",
+    "visible_text": "Product detail. Name: TravelMug One. Category: travel mug. Price: $24. Rating: 4.6. Color: red.",
+    "elements": [],
+    "answer": "TravelMug One",
+    "html_path": "pages/generated_pages/shop_item_010.html"
+  },
+  "shop_home": {
+    "page_id": "shop_home",
+    "page_type": "shopping",
+    "visible_text": "Shopping home. SoundCore A20: bluetooth earbuds, $89, rating 4.8, black. BassFlow Mini: bluetooth earbuds, $59, rating 4.2, blue. QuietLite Pro: bluetooth earbuds, $129, rating 4.7, white. PixelPad S: tablet, $299, rating 4.6, silver. NoteTab Air: tablet, $229, rating 4.4, gray. RunBeat Clip: fitness tracker, $69, rating 4.5, green. PulseBand Neo: fitness tracker, $99, rating 4.7, black. DeskLamp Halo: desk lamp, $45, rating 4.3, white. FocusLamp Max: desk lamp, $78, rating 4.9, black. TravelMug One: travel mug, $24, rating 4.6, red.",
+    "elements": [
+      {
+        "element_id": "filter_price_under_100",
+        "text": "Filter price under 100",
+        "target_page": "shop_under_100"
+      },
+      {
+        "element_id": "sort_rating_desc",
+        "text": "Sort by rating descending",
+        "target_page": "shop_rating_desc"
+      },
+      {
+        "element_id": "shop_item_001",
+        "text": "SoundCore A20",
+        "target_page": "shop_item_001"
+      },
+      {
+        "element_id": "shop_item_002",
+        "text": "BassFlow Mini",
+        "target_page": "shop_item_002"
+      },
+      {
+        "element_id": "shop_item_003",
+        "text": "QuietLite Pro",
+        "target_page": "shop_item_003"
+      },
+      {
+        "element_id": "shop_item_004",
+        "text": "PixelPad S",
+        "target_page": "shop_item_004"
+      },
+      {
+        "element_id": "shop_item_005",
+        "text": "NoteTab Air",
+        "target_page": "shop_item_005"
+      },
+      {
+        "element_id": "shop_item_006",
+        "text": "RunBeat Clip",
+        "target_page": "shop_item_006"
+      },
+      {
+        "element_id": "shop_item_007",
+        "text": "PulseBand Neo",
+        "target_page": "shop_item_007"
+      },
+      {
+        "element_id": "shop_item_008",
+        "text": "DeskLamp Halo",
+        "target_page": "shop_item_008"
+      },
+      {
+        "element_id": "shop_item_009",
+        "text": "FocusLamp Max",
+        "target_page": "shop_item_009"
+      },
+      {
+        "element_id": "shop_item_010",
+        "text": "TravelMug One",
+        "target_page": "shop_item_010"
+      }
+    ],
+    "html_path": "pages/generated_pages/shop_home.html"
+  },
+  "shop_under_100": {
+    "page_id": "shop_under_100",
+    "page_type": "shopping",
+    "visible_text": "Products with price under 100. SoundCore A20: bluetooth earbuds, $89, rating 4.8, black. BassFlow Mini: bluetooth earbuds, $59, rating 4.2, blue. RunBeat Clip: fitness tracker, $69, rating 4.5, green. PulseBand Neo: fitness tracker, $99, rating 4.7, black. DeskLamp Halo: desk lamp, $45, rating 4.3, white. FocusLamp Max: desk lamp, $78, rating 4.9, black. TravelMug One: travel mug, $24, rating 4.6, red.",
+    "elements": [
+      {
+        "element_id": "shop_under_100_item_001",
+        "text": "SoundCore A20",
+        "target_page": "shop_item_001"
+      },
+      {
+        "element_id": "shop_under_100_item_002",
+        "text": "BassFlow Mini",
+        "target_page": "shop_item_002"
+      },
+      {
+        "element_id": "shop_under_100_item_003",
+        "text": "RunBeat Clip",
+        "target_page": "shop_item_006"
+      },
+      {
+        "element_id": "shop_under_100_item_004",
+        "text": "PulseBand Neo",
+        "target_page": "shop_item_007"
+      },
+      {
+        "element_id": "shop_under_100_item_005",
+        "text": "DeskLamp Halo",
+        "target_page": "shop_item_008"
+      },
+      {
+        "element_id": "shop_under_100_item_006",
+        "text": "FocusLamp Max",
+        "target_page": "shop_item_009"
+      },
+      {
+        "element_id": "shop_under_100_item_007",
+        "text": "TravelMug One",
+        "target_page": "shop_item_010"
+      }
+    ],
+    "html_path": "pages/generated_pages/shop_under_100.html"
+  },
+  "shop_rating_desc": {
+    "page_id": "shop_rating_desc",
+    "page_type": "shopping",
+    "visible_text": "Products sorted by rating high to low. FocusLamp Max: desk lamp, $78, rating 4.9, black. SoundCore A20: bluetooth earbuds, $89, rating 4.8, black. QuietLite Pro: bluetooth earbuds, $129, rating 4.7, white. PulseBand Neo: fitness tracker, $99, rating 4.7, black. PixelPad S: tablet, $299, rating 4.6, silver. TravelMug One: travel mug, $24, rating 4.6, red. RunBeat Clip: fitness tracker, $69, rating 4.5, green. NoteTab Air: tablet, $229, rating 4.4, gray. DeskLamp Halo: desk lamp, $45, rating 4.3, white. BassFlow Mini: bluetooth earbuds, $59, rating 4.2, blue.",
+    "elements": [
+      {
+        "element_id": "shop_rating_item_001",
+        "text": "FocusLamp Max",
+        "target_page": "shop_item_009"
+      },
+      {
+        "element_id": "shop_rating_item_002",
+        "text": "SoundCore A20",
+        "target_page": "shop_item_001"
+      },
+      {
+        "element_id": "shop_rating_item_003",
+        "text": "QuietLite Pro",
+        "target_page": "shop_item_003"
+      },
+      {
+        "element_id": "shop_rating_item_004",
+        "text": "PulseBand Neo",
+        "target_page": "shop_item_007"
+      },
+      {
+        "element_id": "shop_rating_item_005",
+        "text": "PixelPad S",
+        "target_page": "shop_item_004"
+      },
+      {
+        "element_id": "shop_rating_item_006",
+        "text": "TravelMug One",
+        "target_page": "shop_item_010"
+      },
+      {
+        "element_id": "shop_rating_item_007",
+        "text": "RunBeat Clip",
+        "target_page": "shop_item_006"
+      },
+      {
+        "element_id": "shop_rating_item_008",
+        "text": "NoteTab Air",
+        "target_page": "shop_item_005"
+      },
+      {
+        "element_id": "shop_rating_item_009",
+        "text": "DeskLamp Halo",
+        "target_page": "shop_item_008"
+      },
+      {
+        "element_id": "shop_rating_item_010",
+        "text": "BassFlow Mini",
+        "target_page": "shop_item_002"
+      }
+    ],
+    "html_path": "pages/generated_pages/shop_rating_desc.html"
+  },
+  "course_detail_001": {
+    "page_id": "course_detail_001",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: CS101. Title: Intro to Programming. Department: Computer Science. Credits: 3. Rating: 4.6. Time: Mon 09:00.",
+    "elements": [],
+    "answer": "CS101",
+    "html_path": "pages/generated_pages/course_detail_001.html"
+  },
+  "course_detail_002": {
+    "page_id": "course_detail_002",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: CS220. Title: Data Structures. Department: Computer Science. Credits: 4. Rating: 4.8. Time: Tue 10:00.",
+    "elements": [],
+    "answer": "CS220",
+    "html_path": "pages/generated_pages/course_detail_002.html"
+  },
+  "course_detail_003": {
+    "page_id": "course_detail_003",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: CS330. Title: Web Systems. Department: Computer Science. Credits: 3. Rating: 4.5. Time: Wed 14:00.",
+    "elements": [],
+    "answer": "CS330",
+    "html_path": "pages/generated_pages/course_detail_003.html"
+  },
+  "course_detail_004": {
+    "page_id": "course_detail_004",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: MATH120. Title: Linear Algebra. Department: Mathematics. Credits: 4. Rating: 4.7. Time: Thu 09:00.",
+    "elements": [],
+    "answer": "MATH120",
+    "html_path": "pages/generated_pages/course_detail_004.html"
+  },
+  "course_detail_005": {
+    "page_id": "course_detail_005",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: MATH210. Title: Probability. Department: Mathematics. Credits: 3. Rating: 4.4. Time: Fri 11:00.",
+    "elements": [],
+    "answer": "MATH210",
+    "html_path": "pages/generated_pages/course_detail_005.html"
+  },
+  "course_detail_006": {
+    "page_id": "course_detail_006",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: BIO105. Title: Cell Biology. Department: Biology. Credits: 3. Rating: 4.3. Time: Mon 13:00.",
+    "elements": [],
+    "answer": "BIO105",
+    "html_path": "pages/generated_pages/course_detail_006.html"
+  },
+  "course_detail_007": {
+    "page_id": "course_detail_007",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: BIO260. Title: Genetics. Department: Biology. Credits: 4. Rating: 4.9. Time: Wed 10:00.",
+    "elements": [],
+    "answer": "BIO260",
+    "html_path": "pages/generated_pages/course_detail_007.html"
+  },
+  "course_detail_008": {
+    "page_id": "course_detail_008",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: ECON101. Title: Microeconomics. Department: Economics. Credits: 3. Rating: 4.2. Time: Tue 15:00.",
+    "elements": [],
+    "answer": "ECON101",
+    "html_path": "pages/generated_pages/course_detail_008.html"
+  },
+  "course_detail_009": {
+    "page_id": "course_detail_009",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: ECON240. Title: Game Theory. Department: Economics. Credits: 3. Rating: 4.8. Time: Thu 14:00.",
+    "elements": [],
+    "answer": "ECON240",
+    "html_path": "pages/generated_pages/course_detail_009.html"
+  },
+  "course_detail_010": {
+    "page_id": "course_detail_010",
+    "page_type": "course",
+    "visible_text": "Course detail. Code: HIST180. Title: Modern World History. Department: History. Credits: 3. Rating: 4.1. Time: Fri 09:00.",
+    "elements": [],
+    "answer": "HIST180",
+    "html_path": "pages/generated_pages/course_detail_010.html"
+  },
+  "course_home": {
+    "page_id": "course_home",
+    "page_type": "course",
+    "visible_text": "Course home. CS101 Intro to Programming: Computer Science, 3 credits, rating 4.6, Mon 09:00. CS220 Data Structures: Computer Science, 4 credits, rating 4.8, Tue 10:00. CS330 Web Systems: Computer Science, 3 credits, rating 4.5, Wed 14:00. MATH120 Linear Algebra: Mathematics, 4 credits, rating 4.7, Thu 09:00. MATH210 Probability: Mathematics, 3 credits, rating 4.4, Fri 11:00. BIO105 Cell Biology: Biology, 3 credits, rating 4.3, Mon 13:00. BIO260 Genetics: Biology, 4 credits, rating 4.9, Wed 10:00. ECON101 Microeconomics: Economics, 3 credits, rating 4.2, Tue 15:00. ECON240 Game Theory: Economics, 3 credits, rating 4.8, Thu 14:00. HIST180 Modern World History: History, 3 credits, rating 4.1, Fri 09:00.",
+    "elements": [
+      {
+        "element_id": "filter_department_computer_science",
+        "text": "Filter Computer Science",
+        "target_page": "course_cs"
+      },
+      {
+        "element_id": "filter_credits_4",
+        "text": "Filter 4 credits",
+        "target_page": "course_credits_4"
+      },
+      {
+        "element_id": "course_item_001",
+        "text": "CS101",
+        "target_page": "course_detail_001"
+      },
+      {
+        "element_id": "course_item_002",
+        "text": "CS220",
+        "target_page": "course_detail_002"
+      },
+      {
+        "element_id": "course_item_003",
+        "text": "CS330",
+        "target_page": "course_detail_003"
+      },
+      {
+        "element_id": "course_item_004",
+        "text": "MATH120",
+        "target_page": "course_detail_004"
+      },
+      {
+        "element_id": "course_item_005",
+        "text": "MATH210",
+        "target_page": "course_detail_005"
+      },
+      {
+        "element_id": "course_item_006",
+        "text": "BIO105",
+        "target_page": "course_detail_006"
+      },
+      {
+        "element_id": "course_item_007",
+        "text": "BIO260",
+        "target_page": "course_detail_007"
+      },
+      {
+        "element_id": "course_item_008",
+        "text": "ECON101",
+        "target_page": "course_detail_008"
+      },
+      {
+        "element_id": "course_item_009",
+        "text": "ECON240",
+        "target_page": "course_detail_009"
+      },
+      {
+        "element_id": "course_item_010",
+        "text": "HIST180",
+        "target_page": "course_detail_010"
+      }
+    ],
+    "html_path": "pages/generated_pages/course_home.html"
+  },
+  "course_cs": {
+    "page_id": "course_cs",
+    "page_type": "course",
+    "visible_text": "Computer Science courses. CS101 Intro to Programming: 3 credits, rating 4.6, Mon 09:00. CS220 Data Structures: 4 credits, rating 4.8, Tue 10:00. CS330 Web Systems: 3 credits, rating 4.5, Wed 14:00.",
+    "elements": [
+      {
+        "element_id": "course_cs_item_001",
+        "text": "CS101",
+        "target_page": "course_detail_001"
+      },
+      {
+        "element_id": "course_cs_item_002",
+        "text": "CS220",
+        "target_page": "course_detail_002"
+      },
+      {
+        "element_id": "course_cs_item_003",
+        "text": "CS330",
+        "target_page": "course_detail_003"
+      }
+    ],
+    "html_path": "pages/generated_pages/course_cs.html"
+  },
+  "course_credits_4": {
+    "page_id": "course_credits_4",
+    "page_type": "course",
+    "visible_text": "4 credit courses. CS220 Data Structures: Computer Science, rating 4.8, Tue 10:00. MATH120 Linear Algebra: Mathematics, rating 4.7, Thu 09:00. BIO260 Genetics: Biology, rating 4.9, Wed 10:00.",
+    "elements": [
+      {
+        "element_id": "course_credits_4_item_001",
+        "text": "CS220",
+        "target_page": "course_detail_002"
+      },
+      {
+        "element_id": "course_credits_4_item_002",
+        "text": "MATH120",
+        "target_page": "course_detail_004"
+      },
+      {
+        "element_id": "course_credits_4_item_003",
+        "text": "BIO260",
+        "target_page": "course_detail_007"
+      }
+    ],
+    "html_path": "pages/generated_pages/course_credits_4.html"
+  }
+}
