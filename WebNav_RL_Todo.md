@@ -30,6 +30,57 @@
 → Error Analysis / README / Demo
 ```
 
+## 1.1 当前进度快照（2026-06-22）
+
+当前仓库已经完成 **V0 环境 Demo**、**V1 数据准备**和**模型评测基础设施**，还没有运行真实 Base/SFT 模型实验，也没有进入 GRPO 阶段。
+
+已验证结果：
+
+```json
+{
+  "num_tasks": 1000,
+  "train_tasks": 800,
+  "eval_tasks": 200,
+  "train_sft_examples": 800,
+  "eval_sft_examples": 200,
+  "success_rate": 1.0,
+  "invalid_actions": 0,
+  "avg_steps": 3.167
+}
+```
+
+当前完成产物：
+
+```text
+pages/generated_pages/*.html
+pages/generated_pages/metadata.json
+tasks/all_tasks.jsonl
+tasks/train_tasks.jsonl
+tasks/eval_tasks.jsonl
+outputs/trajectories/expert_train_trajectories.jsonl
+outputs/trajectories/expert_eval_trajectories.jsonl
+training/sft_train.jsonl
+training/sft_eval.jsonl
+rollout/parser.py
+rollout/model_runner.py
+rollout/transformers_generator.py
+eval/evaluate.py
+eval/metrics.py
+scripts/run_eval.py
+outputs/eval_reports/eval_report.json
+```
+
+下一步优先级：
+
+```text
+1. 准备本地或云端 GPU 环境，运行 Qwen Base model eval
+2. 编写 LoRA SFT 训练脚本
+3. 跑 Base vs SFT eval
+4. 实现 reward function，为 GRPO 做准备
+```
+
+评测管线自检结果：200 条 eval task 全部成功，tool-call format accuracy 为 100%，invalid tool call rate 为 0，平均模型步数为 3.185。该结果来自 oracle expert replay，仅用于验证 parser、dispatch、rollout 和 metrics，不代表 Base 模型能力。
+
 ---
 
 ## 2. 推荐目录结构
@@ -105,11 +156,11 @@ WebNav-RL/
 
 ### 0.1 项目初始化
 
-- [ ] 创建 GitHub repo：`WebNav-RL`
-- [ ] 创建基础目录结构
-- [ ] 创建 `requirements.txt`
-- [ ] 创建初版 `README.md`
-- [ ] 写清楚项目目标和整体流程
+- [x] 创建 GitHub repo：`WebNav-RL`
+- [x] 创建基础目录结构
+- [x] 创建 `requirements.txt`
+- [x] 创建初版 `README.md`
+- [x] 写清楚项目目标和整体流程
 
 ---
 
@@ -136,12 +187,14 @@ WebNav-RL/
 
 Todo：
 
-- [ ] 写电商页面 HTML 模板
-- [ ] 写课程页面 HTML 模板
-- [ ] 写页面数据生成脚本
-- [ ] 给每个可点击元素分配 `element_id`
-- [ ] 保存页面状态 metadata
-- [ ] 生成静态 HTML 页面
+- [x] 写电商页面 HTML 模板
+- [x] 写课程页面 HTML 模板
+- [x] 写页面数据生成脚本
+- [x] 给每个可点击元素分配 `element_id`
+- [x] 保存页面状态 metadata
+- [x] 生成静态 HTML 页面
+
+当前实现：`pages/page_generator.py` 生成 shopping/course 两类页面，共 26 个本地 HTML 页面，并保存 `pages/generated_pages/metadata.json`。
 
 示例页面 metadata：
 
@@ -171,13 +224,15 @@ submit_answer(answer)
 
 Todo：
 
-- [ ] 实现 `open_page(page_id)`
-- [ ] 实现 `click(element_id)`
-- [ ] 实现 `get_visible_text()`
-- [ ] 实现 `submit_answer(answer)`
-- [ ] 维护当前页面状态
-- [ ] 记录每一步 action
-- [ ] 返回标准化 tool response
+- [x] 实现 `open_page(page_id)`
+- [x] 实现 `click(element_id)`
+- [x] 实现 `get_visible_text()`
+- [x] 实现 `submit_answer(answer)`
+- [x] 维护当前页面状态
+- [x] 记录每一步 action
+- [x] 返回标准化 tool response
+
+当前实现：`env/browser_env.py` 已维护 episode state、action log、invalid action count 和标准化 tool response。
 
 工具返回格式示例：
 
@@ -209,10 +264,12 @@ Todo：
 
 Todo：
 
-- [ ] 手写 20 条任务
-- [ ] 实现 task loader
-- [ ] 支持 `env.reset(task_id)`
-- [ ] 支持最大步数限制，例如 8 步
+- [x] 构造 20 条 V0 demo 任务
+- [x] 实现 task loader
+- [x] 支持 `env.reset(task)`
+- [x] 支持最大步数限制字段，例如 8 步
+
+当前实现：`scripts/run_v0_demo.py` 可生成并运行 20 条 demo 任务；`tasks/task_loader.py` 可加载 JSONL 任务文件。
 
 ---
 
@@ -227,11 +284,11 @@ submit_answer == target_answer → success
 
 Todo：
 
-- [ ] 实现 exact match verifier
-- [ ] 记录 success / failure
-- [ ] 记录 step count
-- [ ] 记录 invalid action
-- [ ] 输出 episode summary
+- [x] 实现 exact match verifier
+- [x] 记录 success / failure
+- [x] 记录 step count
+- [x] 记录 invalid action
+- [x] 输出 episode summary
 
 Episode summary 示例：
 
@@ -254,10 +311,10 @@ Episode summary 示例：
 
 Todo：
 
-- [ ] 根据 task metadata 写 hard-coded expert
-- [ ] expert 调用 `open_page / click / get_visible_text / submit_answer`
-- [ ] 保存完整 trajectory
-- [ ] 在 20 条任务上测试 success rate
+- [x] 根据 task metadata 写 hard-coded expert
+- [x] expert 调用 `open_page / click / submit_answer`
+- [x] 保存完整 trajectory
+- [x] 在 20 条任务上测试 success rate
 
 完成标准：
 
@@ -265,6 +322,8 @@ Todo：
 rule-based expert 在 20 条任务上 success rate = 100%
 所有工具调用日志可以保存
 ```
+
+当前验证结果：V0 demo 成功率 20/20，`success_rate = 1.0`，`invalid_actions = 0`，`avg_steps = 3.25`。
 
 ---
 
@@ -299,12 +358,14 @@ SFT 后工具调用格式明显更稳定
 
 Todo：
 
-- [ ] 写 shopping task generator
-- [ ] 写 course task generator
-- [ ] 自动生成商品/课程数据
-- [ ] 自动计算 target answer
-- [ ] 自动保存 task jsonl
-- [ ] 划分 train/eval
+- [x] 写 shopping task generator
+- [x] 写 course task generator
+- [x] 自动生成商品/课程数据
+- [x] 自动计算 target answer
+- [x] 自动保存 task jsonl
+- [x] 划分 train/eval
+
+当前实现：`tasks/task_generator.py` 可生成 1000 条任务，并按 800/200 划分 `train_tasks.jsonl` 和 `eval_tasks.jsonl`。
 
 建议数据量：
 
@@ -337,11 +398,13 @@ Trajectory 格式示例：
 
 Todo：
 
-- [ ] 保存 expert trajectory
-- [ ] 转换成 chat format
-- [ ] 转换成模型训练格式
-- [ ] 划分 train/eval
-- [ ] 检查 tool call JSON 合法性
+- [x] 保存 expert trajectory
+- [x] 转换成 chat format
+- [x] 转换成模型训练格式
+- [x] 划分 train/eval
+- [x] 检查 tool call JSON 合法性
+
+当前实现：`rollout/rollout_runner.py` 生成 expert trajectories，`training/build_sft_data.py` 转换并校验 tool call JSON；当前已有 800 条 SFT train example 和 200 条 SFT eval example。
 
 ---
 
@@ -361,6 +424,8 @@ Todo：
 - [ ] 设置 chat template
 - [ ] 写 LoRA 配置
 - [ ] 写 SFT 训练脚本
+
+当前状态：尚未接入真实模型。下一步建议优先补 `training/sft_train.py`，目标模型先选 Qwen2.5-0.5B-Instruct 或 Qwen3-0.6B。
 
 建议只做 LoRA，不做全参训练。
 
@@ -406,12 +471,14 @@ Invalid Tool Call Rate
 
 Todo：
 
-- [ ] 写 rollout runner
+- [x] 写 rollout runner
 - [ ] 让 base model 跑 eval tasks
 - [ ] 让 SFT model 跑 eval tasks
 - [ ] 比较指标
-- [ ] 输出 `eval_report.json`
-- [ ] 保存失败案例
+- [x] 输出 `eval_report.json`
+- [x] 保存失败案例
+
+当前状态：已实现严格 `<tool_call>{...}</tool_call>` parser、ToolRegistry dispatch、模型多步 rollout、Transformers 模型适配器、format/invalid/success/step 指标、eval report 输出和失败轨迹保存。已用 200 条 oracle expert replay 完成端到端自检；下一步需要加载真实 Qwen Base 模型运行固定 eval set。
 
 完成标准：
 
@@ -914,20 +981,22 @@ technical report
 
 # 最小可行 Todo 总表
 
-如果想马上开工，就按这个清单做：
+如果想马上开工，就按这个清单做。前半部分已经完成，当前应从模型 rollout / SFT 开始推进：
 
 ```text
-[ ] 创建 WebNav-RL repo
-[ ] 实现本地 HTML 页面生成器
-[ ] 实现 open_page / click / get_visible_text / submit_answer
-[ ] 手写 20 条任务
-[ ] 实现 verifier
-[ ] 实现 rule-based expert
-[ ] 自动生成 1000 条任务
-[ ] 生成 expert trajectories
-[ ] 转成 SFT 数据
+[x] 创建 WebNav-RL repo
+[x] 实现本地 HTML 页面生成器
+[x] 实现 open_page / click / get_visible_text / submit_answer
+[x] 构造 20 条 V0 demo 任务
+[x] 实现 verifier
+[x] 实现 rule-based expert
+[x] 自动生成 1000 条任务
+[x] 生成 expert trajectories
+[x] 转成 SFT 数据
+[x] 写模型 rollout parser
+[x] 写 Base model eval runner
+[ ] 运行 Qwen Base model eval
 [ ] 用 Qwen 0.5B/0.6B 做 LoRA SFT
-[ ] 写 rollout runner
 [ ] 评估 Base vs SFT
 [ ] 实现 reward function
 [ ] 接入 GRPO

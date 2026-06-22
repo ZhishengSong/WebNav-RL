@@ -1,0 +1,15 @@
+{
+  "num_tasks": 200,
+  "successes": 200,
+  "task_success_rate": 1.0,
+  "final_answer_accuracy": 1.0,
+  "tool_call_format_accuracy": 1.0,
+  "invalid_tool_call_rate": 0.0,
+  "average_model_steps": 3.185,
+  "average_environment_actions": 3.185,
+  "format_errors": 0,
+  "invalid_tool_calls": 0,
+  "termination_counts": {
+    "submitted": 200
+  }
+}

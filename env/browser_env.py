@@ -18,13 +18,24 @@ class BrowserEnv:
         self.action_log: list[dict[str, Any]] = []
 
     def reset(self, task: dict[str, Any]) -> dict[str, Any]:
+        self.start_episode(task)
+        return self.open_page(task["start_page"])
+
+    def start_episode(self, task: dict[str, Any]) -> None:
         self.task = task
         self.current_page = None
         self.final_answer = None
         self.done = False
         self.invalid_actions = 0
         self.action_log = []
-        return self.open_page(task["start_page"])
+
+    def record_invalid_action(
+        self,
+        tool_name: str,
+        arguments: dict[str, Any],
+        message: str,
+    ) -> dict[str, Any]:
+        return self._invalid(tool_name, arguments, message)
 
     def open_page(self, page_id: str) -> dict[str, Any]:
         try:

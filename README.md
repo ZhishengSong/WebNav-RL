@@ -79,3 +79,20 @@ Additional artifacts:
 - `outputs/trajectories/expert_eval_trajectories.jsonl`
 - `training/sft_train.jsonl`
 - `training/sft_eval.jsonl`
+
+## Model Evaluation
+
+Run the zero-dependency expert replay first to verify the parser, dispatch, rollout, and metrics pipeline:
+
+```bash
+python scripts/run_eval.py
+```
+
+To evaluate a local or Hugging Face Base model, install the optional model dependencies and pass its path or id:
+
+```bash
+pip install -r requirements-model.txt
+python scripts/run_eval.py --model Qwen/Qwen2.5-0.5B-Instruct --limit 20
+```
+
+Evaluation writes full trajectories to `outputs/trajectories/eval_trajectories.jsonl`, aggregate metrics to `outputs/eval_reports/eval_report.json`, and failed trajectories to `outputs/eval_reports/failures.jsonl`.

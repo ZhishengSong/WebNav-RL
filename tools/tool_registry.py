@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 from collections.abc import Callable
 from typing import Any
 
@@ -8,6 +9,7 @@ from tools.web_tools import WebTools
 
 class ToolRegistry:
     def __init__(self, tools: WebTools) -> None:
+        self._env = tools.env
         self._tools: dict[str, Callable[..., dict[str, Any]]] = {
             "open_page": tools.open_page,
             "click": tools.click,
@@ -17,14 +19,17 @@ class ToolRegistry:
 
     def call(self, name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         if name not in self._tools:
-            return {
-                "tool_name": name,
-                "arguments": arguments,
-                "status": "error",
-                "current_page": None,
-                "observation": f"Unknown tool: {name}",
-            }
-        return self._tools[name](**arguments)
+            return self._env.record_invalid_action(name, arguments, f"Unknown tool: {name}")
+        tool = self._tools[name]
+        try:
+            inspect.signature(tool).bind(**arguments)
+        except TypeError as exc:
+            return self._env.record_invalid_action(
+                name,
+                arguments,
+                f"Invalid arguments for {name}: {exc}",
+            )
+        return tool(**arguments)
 
     @property
     def names(self) -> list[str]:
