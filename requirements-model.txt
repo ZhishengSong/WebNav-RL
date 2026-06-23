@@ -1,3 +1,9 @@
 # Optional dependencies for local Base/SFT model evaluation.
 torch
 transformers
+jinja2
+peft
+accelerate
+huggingface_hub
+safetensors
+pytest

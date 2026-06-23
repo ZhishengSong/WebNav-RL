@@ -1,0 +1,251 @@
+{
+  "trajectory_path": "outputs\\trajectories\\sft_qwen_0_5b_step200_eval50_full_t48_trajectories.jsonl",
+  "tasks_path": "tasks\\eval_tasks.jsonl",
+  "num_trajectories": 50,
+  "successes": 32,
+  "failures": 18,
+  "success_rate": 0.64,
+  "failure_rate": 0.36,
+  "error_counts": {
+    "success": 32,
+    "wrong_candidate_after_filter": 5,
+    "wrong_click_path": 11,
+    "invalid_tool_call": 2
+  },
+  "error_rates": {
+    "success": 0.64,
+    "wrong_candidate_after_filter": 0.1,
+    "wrong_click_path": 0.22,
+    "invalid_tool_call": 0.04
+  },
+  "by_page_type": {
+    "shopping": {
+      "success": 15,
+      "wrong_candidate_after_filter": 3,
+      "wrong_click_path": 11,
+      "invalid_tool_call": 1
+    },
+    "course": {
+      "success": 17,
+      "wrong_candidate_after_filter": 2,
+      "invalid_tool_call": 1
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "success": 23,
+      "wrong_click_path": 9
+    },
+    "medium": {
+      "wrong_candidate_after_filter": 5,
+      "success": 9,
+      "invalid_tool_call": 2,
+      "wrong_click_path": 2
+    }
+  },
+  "by_template": {
+    "shopping_price_lookup": {
+      "success": 4,
+      "wrong_click_path": 4
+    },
+    "shopping_name": {
+      "success": 6,
+      "wrong_click_path": 3
+    },
+    "course_code": {
+      "success": 4
+    },
+    "course_4_credit_department": {
+      "wrong_candidate_after_filter": 1,
+      "success": 2
+    },
+    "shopping_color_category": {
+      "success": 3,
+      "wrong_click_path": 2
+    },
+    "shopping_category_highest_rating": {
+      "wrong_candidate_after_filter": 3
+    },
+    "course_department_time": {
+      "success": 6
+    },
+    "course_department_highest_rating": {
+      "success": 2,
+      "invalid_tool_call": 1
+    },
+    "shopping_category_lowest_price": {
+      "wrong_click_path": 2,
+      "success": 2
+    },
+    "course_title": {
+      "success": 3
+    },
+    "course_4_credit_highest_rating": {
+      "wrong_candidate_after_filter": 1
+    },
+    "shopping_under_100_lowest_price": {
+      "invalid_tool_call": 1
+    }
+  },
+  "examples": {
+    "wrong_candidate_after_filter": [
+      {
+        "task_id": "course_00804",
+        "instruction": "In the local page, Find the 4 credit Computer Science course.",
+        "error_type": "wrong_candidate_after_filter",
+        "reason": "model_clicks=['filter_credits_4', 'course_credits_4_item_002']; expert_clicks=['filter_credits_4', 'course_credits_4_item_001']",
+        "success": false,
+        "final_answer": "MATH120",
+        "target_answer": "CS220",
+        "model_clicks": [
+          "filter_credits_4",
+          "course_credits_4_item_002"
+        ],
+        "expert_clicks": [
+          "filter_credits_4",
+          "course_credits_4_item_001"
+        ],
+        "template": "course_4_credit_department",
+        "difficulty": "medium",
+        "page_type": "course"
+      },
+      {
+        "task_id": "shop_00806",
+        "instruction": "Can you find the highest rated bluetooth earbuds? Submit the answer once found.",
+        "error_type": "wrong_candidate_after_filter",
+        "reason": "model_clicks=['sort_rating_desc', 'shop_rating_item_001']; expert_clicks=['sort_rating_desc', 'shop_rating_item_002']",
+        "success": false,
+        "final_answer": "FocusLamp Max",
+        "target_answer": "SoundCore A20",
+        "model_clicks": [
+          "sort_rating_desc",
+          "shop_rating_item_001"
+        ],
+        "expert_clicks": [
+          "sort_rating_desc",
+          "shop_rating_item_002"
+        ],
+        "template": "shopping_category_highest_rating",
+        "difficulty": "medium",
+        "page_type": "shopping"
+      },
+      {
+        "task_id": "shop_00834",
+        "instruction": "Please find the highest rated fitness tracker. Use the page information.",
+        "error_type": "wrong_candidate_after_filter",
+        "reason": "model_clicks=['sort_rating_desc', 'shop_rating_item_001']; expert_clicks=['sort_rating_desc', 'shop_rating_item_004']",
+        "success": false,
+        "final_answer": "FocusLamp Max",
+        "target_answer": "PulseBand Neo",
+        "model_clicks": [
+          "sort_rating_desc",
+          "shop_rating_item_001"
+        ],
+        "expert_clicks": [
+          "sort_rating_desc",
+          "shop_rating_item_004"
+        ],
+        "template": "shopping_category_highest_rating",
+        "difficulty": "medium",
+        "page_type": "shopping"
+      }
+    ],
+    "wrong_click_path": [
+      {
+        "task_id": "shop_00814",
+        "instruction": "Find the red travel mug. Return the exact answer.",
+        "error_type": "wrong_click_path",
+        "reason": "model_clicks=['shop_item_008']; expert_clicks=['shop_item_010']",
+        "success": false,
+        "final_answer": "DeskLamp Halo",
+        "target_answer": "TravelMug One",
+        "model_clicks": [
+          "shop_item_008"
+        ],
+        "expert_clicks": [
+          "shop_item_010"
+        ],
+        "template": "shopping_color_category",
+        "difficulty": "easy",
+        "page_type": "shopping"
+      },
+      {
+        "task_id": "shop_00816",
+        "instruction": "In the local page, Find the item named SoundCore A20. Submit the answer once found.",
+        "error_type": "wrong_click_path",
+        "reason": "model_clicks=['shop_item_002']; expert_clicks=['shop_item_001']",
+        "success": false,
+        "final_answer": "BassFlow Mini",
+        "target_answer": "SoundCore A20",
+        "model_clicks": [
+          "shop_item_002"
+        ],
+        "expert_clicks": [
+          "shop_item_001"
+        ],
+        "template": "shopping_name",
+        "difficulty": "easy",
+        "page_type": "shopping"
+      },
+      {
+        "task_id": "shop_00820",
+        "instruction": "In the local page, Find the lowest priced travel mug. Use the page information.",
+        "error_type": "wrong_click_path",
+        "reason": "model_clicks=['shop_item_008']; expert_clicks=['shop_item_010']",
+        "success": false,
+        "final_answer": "DeskLamp Halo",
+        "target_answer": "TravelMug One",
+        "model_clicks": [
+          "shop_item_008"
+        ],
+        "expert_clicks": [
+          "shop_item_010"
+        ],
+        "template": "shopping_category_lowest_price",
+        "difficulty": "medium",
+        "page_type": "shopping"
+      }
+    ],
+    "invalid_tool_call": [
+      {
+        "task_id": "course_00815",
+        "instruction": "Please find the highest rated History course. Submit the answer once found.",
+        "error_type": "invalid_tool_call",
+        "reason": "Element not found: filter_department_history",
+        "success": false,
+        "final_answer": "course_cs_item_010",
+        "target_answer": "HIST180",
+        "model_clicks": [
+          "filter_department_history",
+          "course_cs_item_010"
+        ],
+        "expert_clicks": [
+          "course_item_010"
+        ],
+        "template": "course_department_highest_rating",
+        "difficulty": "medium",
+        "page_type": "course"
+      },
+      {
+        "task_id": "shop_00847",
+        "instruction": "Please find the lowest priced item under 100 dollars.",
+        "error_type": "invalid_tool_call",
+        "reason": "Element not found: shop_under_100_item_008",
+        "success": false,
+        "final_answer": "SoundCore A20",
+        "target_answer": "TravelMug One",
+        "model_clicks": [
+          "filter_price_under_100",
+          "shop_under_100_item_008"
+        ],
+        "expert_clicks": [
+          "filter_price_under_100",
+          "shop_under_100_item_007"
+        ],
+        "template": "shopping_under_100_lowest_price",
+        "difficulty": "medium",
+        "page_type": "shopping"
+      }
+    ]
+  }
+}

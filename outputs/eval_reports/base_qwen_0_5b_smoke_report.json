@@ -1,0 +1,25 @@
+{
+  "num_tasks": 3,
+  "successes": 0,
+  "task_success_rate": 0.0,
+  "final_answer_accuracy": 0.0,
+  "tool_call_format_accuracy": 0.0,
+  "invalid_tool_call_rate": 1.0,
+  "average_model_steps": 8.0,
+  "average_environment_actions": 0.0,
+  "format_errors": 24,
+  "invalid_tool_calls": 24,
+  "termination_counts": {
+    "max_steps": 3
+  },
+  "metadata": {
+    "eval_mode": "transformers_model",
+    "model": "models\\qwen2.5-0.5b-instruct",
+    "tasks": "tasks\\eval_tasks.jsonl",
+    "limit": 3,
+    "device": "auto",
+    "max_new_tokens": 128,
+    "temperature": 0.0,
+    "trust_remote_code": false
+  }
+}

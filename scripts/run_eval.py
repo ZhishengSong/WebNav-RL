@@ -23,8 +23,13 @@ def main() -> None:
     parser.add_argument("--report", default="outputs/eval_reports/eval_report.json")
     parser.add_argument("--failures", default="outputs/eval_reports/failures.jsonl")
     parser.add_argument("--model", help="Local path or Hugging Face model id. Omit for expert replay.")
+    parser.add_argument("--adapter", help="Optional LoRA adapter path for model eval.")
     parser.add_argument("--device", default="auto")
     parser.add_argument("--max-new-tokens", type=int, default=256)
+    parser.add_argument("--max-steps", type=int, default=None)
+    parser.add_argument("--resume", action="store_true", help="Resume from existing output trajectories.")
+    parser.add_argument("--incremental", action="store_true", help="Append trajectories and refresh report while running.")
+    parser.add_argument("--report-every", type=int, default=10, help="Refresh report every N newly completed tasks.")
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--trust-remote-code", action="store_true")
     args = parser.parse_args()
@@ -36,6 +41,7 @@ def main() -> None:
     if args.model:
         generator = TransformersGenerator(
             args.model,
+            adapter_path=args.adapter,
             max_new_tokens=args.max_new_tokens,
             temperature=args.temperature,
             device=args.device,
@@ -43,12 +49,31 @@ def main() -> None:
         )
         generator_factory = lambda task: generator
 
+    metadata = {
+        "eval_mode": "transformers_model" if args.model else "expert_replay",
+        "model": args.model,
+        "adapter": args.adapter,
+        "tasks": args.tasks,
+        "limit": args.limit,
+        "device": args.device if args.model else None,
+        "max_new_tokens": args.max_new_tokens if args.model else None,
+        "max_steps": args.max_steps,
+        "resume": args.resume,
+        "incremental": args.incremental,
+        "temperature": args.temperature if args.model else None,
+        "trust_remote_code": args.trust_remote_code if args.model else None,
+    }
     _, report = evaluate_tasks(
         tasks,
         generator_factory,
         output_path=args.output,
         report_path=args.report,
         failures_path=args.failures,
+        metadata=metadata,
+        max_steps=args.max_steps,
+        resume=args.resume,
+        incremental=args.incremental,
+        report_every=args.report_every,
     )
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

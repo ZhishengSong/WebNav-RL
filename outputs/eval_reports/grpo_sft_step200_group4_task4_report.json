@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "model": "models\\qwen2.5-0.5b-instruct",
+    "adapter": "outputs\\checkpoints\\qwen2_5_0_5b_lora_sft_step200",
+    "tasks": "tasks\\eval_tasks.jsonl",
+    "limit": 4,
+    "group_size": 4,
+    "temperature": 0.7,
+    "max_new_tokens": 48,
+    "max_steps": null,
+    "resume": false,
+    "incremental": true,
+    "completed_groups": 4,
+    "pending_groups": 0
+  },
+  "summary": {
+    "num_samples": 16,
+    "num_groups": 4,
+    "group_size": 4,
+    "mean_reward": 0.565625,
+    "min_reward": 0.2,
+    "max_reward": 0.9,
+    "success_rate": 0.5625,
+    "mean_abs_advantage": 0.17656249999999998,
+    "nonzero_advantage_groups": 3,
+    "zero_advantage_groups": 1
+  }
+}

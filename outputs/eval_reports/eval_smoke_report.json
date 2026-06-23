@@ -1,22 +1,22 @@
 {
-  "num_tasks": 200,
-  "successes": 200,
+  "num_tasks": 10,
+  "successes": 10,
   "task_success_rate": 1.0,
   "final_answer_accuracy": 1.0,
   "tool_call_format_accuracy": 1.0,
   "invalid_tool_call_rate": 0.0,
-  "average_model_steps": 3.185,
-  "average_environment_actions": 3.185,
+  "average_model_steps": 3.5,
+  "average_environment_actions": 3.5,
   "format_errors": 0,
   "invalid_tool_calls": 0,
   "termination_counts": {
-    "submitted": 200
+    "submitted": 10
   },
   "metadata": {
     "eval_mode": "expert_replay",
     "model": null,
     "tasks": "tasks/eval_tasks.jsonl",
-    "limit": null,
+    "limit": 10,
     "device": null,
     "max_new_tokens": null,
     "temperature": null,

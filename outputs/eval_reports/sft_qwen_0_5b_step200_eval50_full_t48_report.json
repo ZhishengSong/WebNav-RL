@@ -1,0 +1,27 @@
+{
+  "num_tasks": 50,
+  "successes": 32,
+  "task_success_rate": 0.64,
+  "final_answer_accuracy": 0.64,
+  "tool_call_format_accuracy": 1.0,
+  "invalid_tool_call_rate": 0.018518518518518517,
+  "average_model_steps": 3.24,
+  "average_environment_actions": 3.24,
+  "format_errors": 0,
+  "invalid_tool_calls": 3,
+  "termination_counts": {
+    "submitted": 50
+  },
+  "metadata": {
+    "eval_mode": "transformers_model",
+    "model": "models\\qwen2.5-0.5b-instruct",
+    "adapter": "outputs\\checkpoints\\qwen2_5_0_5b_lora_sft_step200",
+    "tasks": "tasks\\eval_tasks.jsonl",
+    "limit": 50,
+    "device": "auto",
+    "max_new_tokens": 48,
+    "max_steps": null,
+    "temperature": 0.0,
+    "trust_remote_code": false
+  }
+}

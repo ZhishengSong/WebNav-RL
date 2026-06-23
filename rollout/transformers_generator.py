@@ -11,6 +11,7 @@ class TransformersGenerator:
     def __init__(
         self,
         model_name_or_path: str,
+        adapter_path: str | None = None,
         max_new_tokens: int = 256,
         temperature: float = 0.0,
         device: str = "auto",
@@ -40,7 +41,14 @@ class TransformersGenerator:
             model_name_or_path,
             torch_dtype=dtype,
             trust_remote_code=trust_remote_code,
-        ).to(self._device)
+        )
+        if adapter_path is not None:
+            try:
+                from peft import PeftModel
+            except ImportError as exc:
+                raise RuntimeError("Loading a LoRA adapter requires peft.") from exc
+            self._model = PeftModel.from_pretrained(self._model, adapter_path)
+        self._model = self._model.to(self._device)
         self._model.eval()
 
     def _resolve_device(self, device: str) -> str:

@@ -1,0 +1,105 @@
+{
+  "trajectory_path": "outputs\\trajectories\\sft_qwen_0_5b_step200_eval200_full_t48_trajectories.jsonl",
+  "tasks_path": "tasks\\eval_tasks.jsonl",
+  "reward_formula": {
+    "format_reward": "+0.2 if all model outputs parse as tool calls",
+    "path_reward": "+0.3 * prefix_match(model_clicks, expert_clicks)",
+    "answer_reward": "+0.4 if final answer exact matches target",
+    "step_penalty": "-0.05 per model step beyond expert_clicks + open + submit",
+    "invalid_penalty": "-0.2 per invalid tool call",
+    "no_submit_penalty": "-0.2 if episode does not submit"
+  },
+  "summary": {
+    "num_rewards": 200,
+    "mean_total_reward": 0.63725,
+    "min_total_reward": -0.25,
+    "max_total_reward": 0.9,
+    "success_count": 127,
+    "failure_count": 73,
+    "success_mean_reward": 0.8763779527559056,
+    "failure_mean_reward": 0.22123287671232877,
+    "mean_format_reward": 0.2,
+    "mean_path_reward": 0.19574999999999998,
+    "mean_answer_reward": 0.254,
+    "mean_step_penalty": -0.0005,
+    "mean_invalid_penalty": -0.012,
+    "by_error_type": {
+      "invalid_tool_call": {
+        "count": 4,
+        "mean_reward": -0.0875
+      },
+      "success": {
+        "count": 127,
+        "mean_reward": 0.8763779527559056
+      },
+      "wrong_candidate_after_filter": {
+        "count": 18,
+        "mean_reward": 0.35
+      },
+      "wrong_click_path": {
+        "count": 51,
+        "mean_reward": 0.2
+      }
+    },
+    "by_template": {
+      "course_4_credit_department": {
+        "count": 6,
+        "mean_reward": 0.8083333333333333
+      },
+      "course_4_credit_highest_rating": {
+        "count": 5,
+        "mean_reward": 0.35
+      },
+      "course_code": {
+        "count": 26,
+        "mean_reward": 0.7692307692307693
+      },
+      "course_department_highest_rating": {
+        "count": 11,
+        "mean_reward": 0.4363636363636364
+      },
+      "course_department_time": {
+        "count": 26,
+        "mean_reward": 0.9
+      },
+      "course_title": {
+        "count": 20,
+        "mean_reward": 0.735
+      },
+      "shopping_category_highest_rating": {
+        "count": 13,
+        "mean_reward": 0.3923076923076923
+      },
+      "shopping_category_lowest_price": {
+        "count": 11,
+        "mean_reward": 0.6454545454545455
+      },
+      "shopping_color_category": {
+        "count": 26,
+        "mean_reward": 0.6576923076923077
+      },
+      "shopping_name": {
+        "count": 27,
+        "mean_reward": 0.4925925925925926
+      },
+      "shopping_price_lookup": {
+        "count": 27,
+        "mean_reward": 0.5296296296296297
+      },
+      "shopping_under_100_lowest_price": {
+        "count": 2,
+        "mean_reward": 0.525
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "count": 142,
+        "mean_reward": 0.6605633802816901
+      },
+      "medium": {
+        "count": 58,
+        "mean_reward": 0.5801724137931035
+      }
+    }
+  }
+}
