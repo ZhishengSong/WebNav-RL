@@ -4,12 +4,13 @@ import argparse
 from typing import Any
 
 from env.browser_env import BrowserEnv
+from env.page_state import PageStore
 from rollout.trajectory import save_jsonl, tool_call_message
 from tasks.task_loader import load_tasks
 
 
-def run_expert_task(task: dict[str, Any]) -> dict[str, Any]:
-    env = BrowserEnv()
+def run_expert_task(task: dict[str, Any], page_store: PageStore | None = None) -> dict[str, Any]:
+    env = BrowserEnv(page_store=page_store)
     messages = [{"role": "user", "content": task["instruction"]}]
 
     env.reset(task)
@@ -34,9 +35,14 @@ def run_expert_task(task: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def run_expert(tasks_path: str, output_path: str) -> list[dict[str, Any]]:
+def run_expert(
+    tasks_path: str,
+    output_path: str,
+    metadata_path: str | None = None,
+) -> list[dict[str, Any]]:
     tasks = load_tasks(tasks_path)
-    trajectories = [run_expert_task(task) for task in tasks]
+    page_store = PageStore(metadata_path) if metadata_path is not None else None
+    trajectories = [run_expert_task(task, page_store=page_store) for task in tasks]
     save_jsonl(output_path, trajectories)
     return trajectories
 
@@ -45,8 +51,9 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--tasks", default="tasks/all_tasks.jsonl")
     parser.add_argument("--output", default="outputs/trajectories/expert_trajectories.jsonl")
+    parser.add_argument("--metadata", default=None)
     args = parser.parse_args()
-    trajectories = run_expert(args.tasks, args.output)
+    trajectories = run_expert(args.tasks, args.output, metadata_path=args.metadata)
     success = sum(1 for row in trajectories if row["summary"]["success"])
     print(f"Expert success rate: {success}/{len(trajectories)} = {success / len(trajectories):.1%}")
     print(f"Saved trajectories to {args.output}")

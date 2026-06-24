@@ -12,4 +12,8 @@ artifacts/server_runs/
 webnav_grpo_results/
 webnav_grpo_results*.tar.gz
 webnav_grpo_multiseed_results*.tar.gz
+pages/generated_pages_v2/
+tasks/v2/
+training/v2/
+outputs/eval_reports/v2_*_smoke*
 *.log

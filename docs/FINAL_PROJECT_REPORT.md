@@ -195,8 +195,8 @@ seed 7：
 
 ## 12. 局限性
 
-- 页面类型和布局仍少，可能学习固定 element-id 模式。
-- 任务模板数量有限，真实网页泛化尚未验证。
+- V1 页面和 ID 固定；V2 已从数据层修复，但模型尚未接受 V2 评测。
+- V2 仍是合成页面，真实网页泛化尚未验证。
 - 60% rollout groups 没有 advantage，数据效率偏低。
 - GRPO trainer 是简化实现，没有完整 PPO ratio clipping。
 - 当前只有 200 个 eval tasks，统计功效有限。
@@ -206,12 +206,27 @@ seed 7：
 
 优先级从高到低：
 
-1. 增加页面布局、实体和干扰项，建立结构级 held-out split。
-2. 增加针对排序、筛选和多条件比较的数据与过程 reward。
-3. 提升 group 内多样性，减少 zero-advantage groups。
-4. 加入 early stopping、KL drift 聚合日志和 checkpoint selection。
-5. 数据和 reward 改善后，再迁移到 Qwen 1.5B 做规模验证。
+1. V2 页面布局、随机 ID、干扰项和结构级 held-out split 已完成。
+2. 下一步训练 V2 SFT，并在未见 layout C 的 500 tasks 上建立 baseline。
+3. 根据 V2 模板结果改进排序、筛选和多条件比较的过程 reward。
+4. 提升 group 内多样性，减少 zero-advantage groups。
+5. 加入 early stopping、KL drift 聚合日志和 checkpoint selection。
+6. V2 数据与 reward 验证后，再迁移到 Qwen 1.5B。
 
-## 14. 最终一句话
+## 14. V2 Readiness Update
 
-WebNav-RL 已完成从可验证环境、专家数据、LoRA SFT 到 GRPO-KL 和多 seed 统计分析的端到端闭环；最佳 run 从 60.5% 提升到 64.0%，三 seed 平均为 62.17%，证明存在正向信号，同时也清楚暴露了训练方差、zero-advantage 数据和多条件候选选择三个下一阶段问题。
+在 V1 实验收尾后，项目进一步完成了 V2 数据环境：
+
+- 210 个多布局页面。
+- 随机且显式可见的 element ID。
+- train A/B 与 held-out eval C。
+- 15 个均衡模板。
+- 3000 train + 500 eval。
+- 11200 train next-action examples。
+- expert 3500/3500 成功，train/eval ID overlap 为 0。
+
+这一步只证明 V2 数据正确可用，不代表模型已经通过结构泛化评测。V2 模型结果将在后续单独报告。
+
+## 15. 最终一句话
+
+WebNav-RL 已完成从可验证环境、专家数据、LoRA SFT 到 GRPO-KL 和多 seed 统计分析的端到端闭环；最佳 run 从 60.5% 提升到 64.0%，三 seed 平均为 62.17%。V2 又进一步建立了随机 ID 和 held-out layout 数据集，下一步将验证这些改进能否转化为真实的结构泛化能力。

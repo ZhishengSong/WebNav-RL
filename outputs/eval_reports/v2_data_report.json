@@ -1,0 +1,115 @@
+{
+  "version": "v2",
+  "page_manifest": {
+    "version": "v2",
+    "seed": 31,
+    "num_pages": 210,
+    "num_products": 24,
+    "num_courses": 24,
+    "train_eval_element_id_overlap": 0,
+    "layouts": {
+      "train_a": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_train_a_shop_home",
+        "course_home": "v2_train_a_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "train_b": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_train_b_shop_home",
+        "course_home": "v2_train_b_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "eval_c": {
+        "split": "eval",
+        "style": "grid",
+        "shop_home": "v2_eval_c_shop_home",
+        "course_home": "v2_eval_c_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      }
+    }
+  },
+  "task_manifest": {
+    "version": "v2",
+    "seed": 37,
+    "train_tasks": 3000,
+    "eval_tasks": 500,
+    "train_layouts": [
+      "train_a",
+      "train_b"
+    ],
+    "eval_layouts": [
+      "eval_c"
+    ],
+    "expert_element_id_overlap": 0,
+    "train_template_counts": {
+      "v2_shopping_category_highest_rating": 200,
+      "v2_course_department_credits_highest_rating": 200,
+      "v2_shopping_price_lookup": 200,
+      "v2_shopping_category_lowest_price": 200,
+      "v2_course_department_highest_rating": 200,
+      "v2_course_code": 200,
+      "v2_course_credits_highest_rating": 200,
+      "v2_shopping_category_budget_highest_rating": 200,
+      "v2_course_department_time": 200,
+      "v2_shopping_under_100_lowest_price": 200,
+      "v2_course_credits_department": 200,
+      "v2_shopping_name": 200,
+      "v2_shopping_under_100_highest_rating": 200,
+      "v2_course_title": 200,
+      "v2_shopping_color_category": 200
+    },
+    "eval_template_counts": {
+      "v2_shopping_under_100_highest_rating": 34,
+      "v2_shopping_category_lowest_price": 34,
+      "v2_shopping_category_budget_highest_rating": 34,
+      "v2_course_credits_department": 34,
+      "v2_shopping_category_highest_rating": 34,
+      "v2_course_credits_highest_rating": 33,
+      "v2_course_department_time": 33,
+      "v2_shopping_name": 33,
+      "v2_shopping_price_lookup": 33,
+      "v2_shopping_color_category": 33,
+      "v2_shopping_under_100_lowest_price": 33,
+      "v2_course_code": 33,
+      "v2_course_title": 33,
+      "v2_course_department_highest_rating": 33,
+      "v2_course_department_credits_highest_rating": 33
+    },
+    "difficulty_counts": {
+      "hard": 2102,
+      "easy": 932,
+      "medium": 466
+    }
+  },
+  "summary": {
+    "num_tasks": 3500,
+    "train_tasks": 3000,
+    "eval_tasks": 500,
+    "expert_successes": 3500,
+    "expert_success_rate": 1.0,
+    "invalid_actions": 0,
+    "action_errors": 0,
+    "expert_path_target_matches": 3500,
+    "average_steps": 3.7337142857142855,
+    "train_sft_trajectories": 3000,
+    "eval_sft_trajectories": 500,
+    "train_next_action_examples": 11200,
+    "eval_next_action_examples": 1868,
+    "templates": 15
+  },
+  "paths": {
+    "metadata": "pages/generated_pages_v2/metadata.json",
+    "train_tasks": "tasks/v2/train_tasks.jsonl",
+    "eval_tasks": "tasks/v2/eval_tasks.jsonl",
+    "train_trajectories": "outputs/trajectories/v2_expert_train_trajectories.jsonl",
+    "eval_trajectories": "outputs/trajectories/v2_expert_eval_trajectories.jsonl",
+    "train_sft": "training/v2/sft_train.jsonl",
+    "eval_sft": "training/v2/sft_eval.jsonl"
+  }
+}

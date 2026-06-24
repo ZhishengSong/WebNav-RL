@@ -33,6 +33,8 @@ The controlled server experiment uses the 200-step LoRA SFT adapter as its stabl
 
 The best GRPO-KL run improved success by `+3.5 pp`, but the three training seeds scored `64.0%`, `63.0%`, and `59.5%`. The mean improvement is positive (`+1.67 pp`) but seed variance remains substantial, so the result is reported as preliminary positive evidence rather than a stable significant gain.
 
+V2 environment/data generation is now ready for the next training round. It adds randomized visible element IDs, two seen train layouts, one structurally held-out eval layout, balanced targeted comparison tasks, and 3,500 expert-verified trajectories. No V2 model result is claimed yet.
+
 ## Key Results
 
 | Stage | Eval | Result | Interpretation |
@@ -45,6 +47,7 @@ The best GRPO-KL run improved success by `+3.5 pp`, but the three training seeds
 | GRPO group rollout | 4 tasks x 4 samples | mean reward `0.566`, nonzero advantages in 3/4 groups | Sampling creates useful within-group preference signal. |
 | Minimal GRPO prototype | 20 tasks | `45%` success | Training loop works, but tiny/no-KL prototype is not yet an improvement. |
 | Server GRPO-KL | 3 training seeds, 200-task eval | best `64.0%`, mean `62.17%` vs SFT `60.5%` | Positive mean signal, but seed variance remains substantial. |
+| V2 data readiness | 3,000 train + 500 held-out eval | `3,500/3,500` expert success, zero train/eval ID overlap | Tests structural generalization instead of fixed-ID memorization. |
 
 ## Main Components
 
@@ -62,6 +65,9 @@ The best GRPO-KL run improved success by `+3.5 pp`, but the three training seeds
 | GRPO rollout | `training/grpo_rollout.py` | Samples grouped rollouts and computes group-relative advantages. |
 | GRPO-KL training | `training/grpo_train.py` | Runs advantage-weighted LoRA updates with a frozen reference-policy KL penalty. |
 | Multi-seed analysis | `eval/multiseed_analysis.py` | Computes paired transitions, McNemar tests, seed aggregates, and template-level deltas. |
+| V2 pages | `pages/v2_generator.py` | Builds three layouts with random visible element IDs and distractors. |
+| V2 tasks | `tasks/v2_task_generator.py` | Creates balanced targeted tasks with a held-out structural split. |
+| V2 pipeline | `scripts/run_v2_data.py` | Generates pages/tasks, verifies expert trajectories, and builds SFT data. |
 
 ## Important Artifacts
 
@@ -86,6 +92,12 @@ Run the deterministic V0/V1 data pipeline:
 
 ```bash
 python scripts/run_v1_data.py --num-tasks 1000 --train-ratio 0.8 --seed 7
+```
+
+Generate and verify the V2 structural-generalization dataset:
+
+```bash
+python scripts/run_v2_data.py --train-tasks 3000 --eval-tasks 500 --seed 31
 ```
 
 Run unit tests:
@@ -126,6 +138,7 @@ The detailed step-by-step notes are in `docs/`:
 - `docs/STEP_08_MINIMAL_GRPO_PROTOTYPE.md`: minimal GRPO-style training prototype.
 - `docs/STEP_09_GRPO_WITH_KL.md`: reference-policy KL constraint for the GRPO trainer.
 - `docs/STEP_10_SERVER_GRPO_KL_EXPERIMENT.md`: server-scale GRPO-KL result and paired analysis.
+- `docs/STEP_11_V2_ENVIRONMENT.md`: randomized IDs, multi-layout pages, balanced tasks, and held-out split.
 - `docs/FINAL_PROJECT_REPORT.md`: consolidated final technical report.
 - `docs/INTERVIEW_QA.md`: interview narrative, questions, and honest resume wording.
 - `docs/SERVER_RUNBOOK.md`: server upload and GRPO-KL experiment runbook.
@@ -139,8 +152,8 @@ The strongest way to describe the project is:
 
 ## Next Work
 
-- Add more diverse page structures and held-out layouts to reduce template memorization.
-- Target sorted/filtered candidate comparison, which did not improve under the current reward.
+- Train the first V2 SFT baseline and measure performance on the held-out layout C.
+- Compare V2 fixed-layout and structural-generalization accuracy by template.
 - Reduce the `60%` zero-advantage group rate through harder tasks or more diverse sampling.
 - Add early stopping and stronger drift monitoring; full-pass training increased invalid calls without improving success.
 - Re-run the improved data/reward design on a 1.5B model only after the environment is more diverse.

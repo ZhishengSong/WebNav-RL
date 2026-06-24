@@ -11,6 +11,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from eval.evaluate import evaluate_tasks, expert_replay_factory
+from env.browser_env import BrowserEnv
+from env.page_state import PageStore
 from rollout.transformers_generator import TransformersGenerator
 from tasks.task_loader import load_tasks
 
@@ -18,6 +20,7 @@ from tasks.task_loader import load_tasks
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate an expert replay or a local model.")
     parser.add_argument("--tasks", default="tasks/eval_tasks.jsonl")
+    parser.add_argument("--metadata", default=None, help="Optional page metadata path for V2/custom datasets.")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--output", default="outputs/trajectories/eval_trajectories.jsonl")
     parser.add_argument("--report", default="outputs/eval_reports/eval_report.json")
@@ -49,11 +52,17 @@ def main() -> None:
         )
         generator_factory = lambda task: generator
 
+    env_factory = None
+    if args.metadata is not None:
+        page_store = PageStore(args.metadata)
+        env_factory = lambda task: BrowserEnv(page_store=page_store)
+
     metadata = {
         "eval_mode": "transformers_model" if args.model else "expert_replay",
         "model": args.model,
         "adapter": args.adapter,
         "tasks": args.tasks,
+        "page_metadata": args.metadata,
         "limit": args.limit,
         "device": args.device if args.model else None,
         "max_new_tokens": args.max_new_tokens if args.model else None,
@@ -74,6 +83,7 @@ def main() -> None:
         resume=args.resume,
         incremental=args.incremental,
         report_every=args.report_every,
+        env_factory=env_factory,
     )
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

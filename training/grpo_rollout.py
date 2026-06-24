@@ -11,6 +11,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from eval.evaluate import append_jsonl, load_jsonl, write_report
+from env.browser_env import BrowserEnv
+from env.page_state import PageStore
 from rollout.model_runner import ExpertReplayGenerator, TextGenerator, run_model_task
 from rollout.transformers_generator import TransformersGenerator
 from rollout.trajectory import save_jsonl
@@ -36,8 +38,17 @@ def collect_group_for_task(
     generator_factory: Any,
     group_size: int,
     max_steps: int | None,
+    page_store: PageStore | None = None,
 ) -> list[dict[str, Any]]:
-    return [run_model_task(task, generator_factory(task), max_steps=max_steps) for _ in range(group_size)]
+    return [
+        run_model_task(
+            task,
+            generator_factory(task),
+            max_steps=max_steps,
+            env=BrowserEnv(page_store=page_store) if page_store is not None else None,
+        )
+        for _ in range(group_size)
+    ]
 
 
 def group_records(
@@ -104,6 +115,7 @@ def collect_grpo_rollouts(args: argparse.Namespace) -> tuple[list[dict[str, Any]
     else:
         shared_generator = build_generator(args)
         generator_factory = lambda task: shared_generator
+    page_store = PageStore(args.metadata) if args.metadata is not None else None
 
     pending_tasks = [task for task in tasks if task["task_id"] not in completed_group_task_ids]
     for group_index, task in enumerate(pending_tasks, start=1):
@@ -112,6 +124,7 @@ def collect_grpo_rollouts(args: argparse.Namespace) -> tuple[list[dict[str, Any]
             generator_factory,
             group_size=args.group_size,
             max_steps=args.max_steps,
+            page_store=page_store,
         )
         records_for_task = group_records(task, trajectories, group_index)
         records.extend(records_for_task)
@@ -124,6 +137,7 @@ def collect_grpo_rollouts(args: argparse.Namespace) -> tuple[list[dict[str, Any]
                     "model": args.model,
                     "adapter": args.adapter,
                     "tasks": args.tasks,
+                    "page_metadata": args.metadata,
                     "limit": args.limit,
                     "group_size": args.group_size,
                     "temperature": args.temperature,
@@ -145,6 +159,7 @@ def collect_grpo_rollouts(args: argparse.Namespace) -> tuple[list[dict[str, Any]
             "model": args.model,
             "adapter": args.adapter,
             "tasks": args.tasks,
+            "page_metadata": args.metadata,
             "limit": args.limit,
             "group_size": args.group_size,
             "temperature": args.temperature,
@@ -165,6 +180,7 @@ def collect_grpo_rollouts(args: argparse.Namespace) -> tuple[list[dict[str, Any]
 def main() -> None:
     parser = argparse.ArgumentParser(description="Collect grouped rollouts and GRPO-style advantages.")
     parser.add_argument("--tasks", default="tasks/eval_tasks.jsonl")
+    parser.add_argument("--metadata", default=None, help="Optional page metadata path for V2/custom datasets.")
     parser.add_argument("--limit", type=int, default=4)
     parser.add_argument("--model", default="models/qwen2.5-0.5b-instruct")
     parser.add_argument("--adapter", default="outputs/checkpoints/qwen2_5_0_5b_lora_sft_step200")

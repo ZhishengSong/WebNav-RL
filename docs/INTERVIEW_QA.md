@@ -82,7 +82,11 @@ SFT 和 GRPO rollout 都来自 train split，最终指标只来自 eval split。
 
 ### 17. 如果再做一周，优先改什么？
 
-第一，增加页面结构和任务模板多样性；第二，为候选比较增加 targeted data 和过程 reward；第三，提高 group 内差异，减少 60% zero-advantage groups；最后才是换 1.5B 模型扩大规模。
+页面结构、随机 ID、held-out layout 和 targeted tasks 已在 V2 完成。下一步先训练 V2 SFT，确认模型能否根据 observation 复制未见 ID；再根据 15 个模板的失败分布改 reward，之后才提高 group 多样性或换 1.5B。
+
+### 18. V2 相比 V1 最关键的变化是什么？
+
+V1 的 ID 固定且 observation 不显示 ID，模型可能记住点击映射。V2 使用随机无语义 ID，并在每次 observation 显式显示可点击 ID；train 用布局 A/B，eval 用未见布局 C，且 train/eval ID overlap 为 0。因此 V2 更直接测试 observation grounding 和结构泛化。
 
 ## 简历表述
 

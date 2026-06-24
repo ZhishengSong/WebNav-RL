@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from eval.metrics import build_eval_report
+from env.browser_env import BrowserEnv
 from rollout.model_runner import ExpertReplayGenerator, TextGenerator, run_model_task
 from rollout.trajectory import save_jsonl
 
@@ -56,6 +57,7 @@ def evaluate_tasks(
     resume: bool = False,
     incremental: bool = False,
     report_every: int = 10,
+    env_factory: Callable[[dict[str, Any]], BrowserEnv] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     trajectories: list[dict[str, Any]] = []
     completed_task_ids: set[str] = set()
@@ -65,7 +67,8 @@ def evaluate_tasks(
 
     pending_tasks = [task for task in tasks if task["task_id"] not in completed_task_ids]
     for index, task in enumerate(pending_tasks, start=1):
-        trajectory = run_model_task(task, generator_factory(task), max_steps=max_steps)
+        env = env_factory(task) if env_factory is not None else None
+        trajectory = run_model_task(task, generator_factory(task), max_steps=max_steps, env=env)
         trajectories.append(trajectory)
         if incremental and output_path is not None:
             append_jsonl(output_path, trajectory)
