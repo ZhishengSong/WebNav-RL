@@ -1,0 +1,585 @@
+{
+  "baseline": {
+    "name": "SFT step200",
+    "path": "artifacts\\server_runs\\2026-06-24\\outputs\\trajectories\\server_sft_eval200_trajectories.jsonl",
+    "metrics": {
+      "num_tasks": 200,
+      "successes": 121,
+      "success_rate": 0.605,
+      "invalid_tool_calls": 10,
+      "invalid_tool_call_rate": 0.015698587127158554,
+      "average_model_steps": 3.185,
+      "error_counts": {
+        "wrong_click_path": 61,
+        "success": 121,
+        "wrong_candidate_after_filter": 16,
+        "invalid_tool_call": 2
+      },
+      "by_template": {
+        "course_4_credit_department": {
+          "total": 6,
+          "successes": 2,
+          "success_rate": 0.3333333333333333
+        },
+        "course_4_credit_highest_rating": {
+          "total": 5,
+          "successes": 5,
+          "success_rate": 1.0
+        },
+        "course_code": {
+          "total": 26,
+          "successes": 26,
+          "success_rate": 1.0
+        },
+        "course_department_highest_rating": {
+          "total": 11,
+          "successes": 11,
+          "success_rate": 1.0
+        },
+        "course_department_time": {
+          "total": 26,
+          "successes": 23,
+          "success_rate": 0.8846153846153846
+        },
+        "course_title": {
+          "total": 20,
+          "successes": 12,
+          "success_rate": 0.6
+        },
+        "shopping_category_highest_rating": {
+          "total": 13,
+          "successes": 1,
+          "success_rate": 0.07692307692307693
+        },
+        "shopping_category_lowest_price": {
+          "total": 11,
+          "successes": 7,
+          "success_rate": 0.6363636363636364
+        },
+        "shopping_color_category": {
+          "total": 26,
+          "successes": 11,
+          "success_rate": 0.4230769230769231
+        },
+        "shopping_name": {
+          "total": 27,
+          "successes": 11,
+          "success_rate": 0.4074074074074074
+        },
+        "shopping_price_lookup": {
+          "total": 27,
+          "successes": 12,
+          "success_rate": 0.4444444444444444
+        },
+        "shopping_under_100_lowest_price": {
+          "total": 2,
+          "successes": 0,
+          "success_rate": 0.0
+        }
+      }
+    }
+  },
+  "candidates": {
+    "seed7": {
+      "path": "artifacts\\server_runs\\2026-06-24\\outputs\\trajectories\\server_grpo_kl_eval200_trajectories.jsonl",
+      "metrics": {
+        "num_tasks": 200,
+        "successes": 128,
+        "success_rate": 0.64,
+        "invalid_tool_calls": 10,
+        "invalid_tool_call_rate": 0.015723270440251572,
+        "average_model_steps": 3.18,
+        "error_counts": {
+          "wrong_click_path": 52,
+          "success": 128,
+          "wrong_candidate_after_filter": 16,
+          "invalid_tool_call": 4
+        },
+        "by_template": {
+          "course_4_credit_department": {
+            "total": 6,
+            "successes": 4,
+            "success_rate": 0.6666666666666666
+          },
+          "course_4_credit_highest_rating": {
+            "total": 5,
+            "successes": 5,
+            "success_rate": 1.0
+          },
+          "course_code": {
+            "total": 26,
+            "successes": 25,
+            "success_rate": 0.9615384615384616
+          },
+          "course_department_highest_rating": {
+            "total": 11,
+            "successes": 7,
+            "success_rate": 0.6363636363636364
+          },
+          "course_department_time": {
+            "total": 26,
+            "successes": 24,
+            "success_rate": 0.9230769230769231
+          },
+          "course_title": {
+            "total": 20,
+            "successes": 17,
+            "success_rate": 0.85
+          },
+          "shopping_category_highest_rating": {
+            "total": 13,
+            "successes": 1,
+            "success_rate": 0.07692307692307693
+          },
+          "shopping_category_lowest_price": {
+            "total": 11,
+            "successes": 8,
+            "success_rate": 0.7272727272727273
+          },
+          "shopping_color_category": {
+            "total": 26,
+            "successes": 12,
+            "success_rate": 0.46153846153846156
+          },
+          "shopping_name": {
+            "total": 27,
+            "successes": 13,
+            "success_rate": 0.48148148148148145
+          },
+          "shopping_price_lookup": {
+            "total": 27,
+            "successes": 12,
+            "success_rate": 0.4444444444444444
+          },
+          "shopping_under_100_lowest_price": {
+            "total": 2,
+            "successes": 0,
+            "success_rate": 0.0
+          }
+        }
+      },
+      "paired_vs_baseline": {
+        "improved": 12,
+        "regressed": 5,
+        "both_correct": 116,
+        "both_wrong": 67,
+        "net_improvement": 7,
+        "mcnemar_exact_p": 0.143463134765625,
+        "improved_task_ids": [
+          "shop_00811",
+          "shop_00813",
+          "shop_00814",
+          "course_00828",
+          "course_00853",
+          "course_00863",
+          "course_00877",
+          "course_00888",
+          "course_00912",
+          "course_00942",
+          "shop_00964",
+          "course_00994"
+        ],
+        "regressed_task_ids": [
+          "course_00864",
+          "course_00897",
+          "course_00916",
+          "course_00928",
+          "course_00957"
+        ]
+      }
+    },
+    "seed17": {
+      "path": "artifacts\\server_runs\\2026-06-24\\outputs\\trajectories\\server_grpo_kl_seed17_eval200_trajectories.jsonl",
+      "metrics": {
+        "num_tasks": 200,
+        "successes": 126,
+        "success_rate": 0.63,
+        "invalid_tool_calls": 12,
+        "invalid_tool_call_rate": 0.018838304552590265,
+        "average_model_steps": 3.185,
+        "error_counts": {
+          "wrong_click_path": 52,
+          "success": 126,
+          "wrong_candidate_after_filter": 17,
+          "invalid_tool_call": 5
+        },
+        "by_template": {
+          "course_4_credit_department": {
+            "total": 6,
+            "successes": 2,
+            "success_rate": 0.3333333333333333
+          },
+          "course_4_credit_highest_rating": {
+            "total": 5,
+            "successes": 5,
+            "success_rate": 1.0
+          },
+          "course_code": {
+            "total": 26,
+            "successes": 25,
+            "success_rate": 0.9615384615384616
+          },
+          "course_department_highest_rating": {
+            "total": 11,
+            "successes": 7,
+            "success_rate": 0.6363636363636364
+          },
+          "course_department_time": {
+            "total": 26,
+            "successes": 25,
+            "success_rate": 0.9615384615384616
+          },
+          "course_title": {
+            "total": 20,
+            "successes": 15,
+            "success_rate": 0.75
+          },
+          "shopping_category_highest_rating": {
+            "total": 13,
+            "successes": 1,
+            "success_rate": 0.07692307692307693
+          },
+          "shopping_category_lowest_price": {
+            "total": 11,
+            "successes": 8,
+            "success_rate": 0.7272727272727273
+          },
+          "shopping_color_category": {
+            "total": 26,
+            "successes": 11,
+            "success_rate": 0.4230769230769231
+          },
+          "shopping_name": {
+            "total": 27,
+            "successes": 15,
+            "success_rate": 0.5555555555555556
+          },
+          "shopping_price_lookup": {
+            "total": 27,
+            "successes": 12,
+            "success_rate": 0.4444444444444444
+          },
+          "shopping_under_100_lowest_price": {
+            "total": 2,
+            "successes": 0,
+            "success_rate": 0.0
+          }
+        }
+      },
+      "paired_vs_baseline": {
+        "improved": 14,
+        "regressed": 9,
+        "both_correct": 112,
+        "both_wrong": 65,
+        "net_improvement": 5,
+        "mcnemar_exact_p": 0.4048728942871094,
+        "improved_task_ids": [
+          "shop_00811",
+          "shop_00813",
+          "course_00828",
+          "course_00841",
+          "shop_00849",
+          "course_00863",
+          "course_00877",
+          "course_00888",
+          "course_00912",
+          "shop_00921",
+          "course_00931",
+          "course_00942",
+          "shop_00964",
+          "course_00994"
+        ],
+        "regressed_task_ids": [
+          "course_00804",
+          "course_00864",
+          "course_00874",
+          "course_00885",
+          "course_00897",
+          "course_00916",
+          "course_00928",
+          "course_00957",
+          "course_00973"
+        ]
+      }
+    },
+    "seed29": {
+      "path": "artifacts\\server_runs\\2026-06-24\\outputs\\trajectories\\server_grpo_kl_seed29_eval200_trajectories.jsonl",
+      "metrics": {
+        "num_tasks": 200,
+        "successes": 119,
+        "success_rate": 0.595,
+        "invalid_tool_calls": 11,
+        "invalid_tool_call_rate": 0.017377567140600316,
+        "average_model_steps": 3.165,
+        "error_counts": {
+          "wrong_click_path": 59,
+          "success": 119,
+          "wrong_candidate_after_filter": 17,
+          "invalid_tool_call": 5
+        },
+        "by_template": {
+          "course_4_credit_department": {
+            "total": 6,
+            "successes": 2,
+            "success_rate": 0.3333333333333333
+          },
+          "course_4_credit_highest_rating": {
+            "total": 5,
+            "successes": 5,
+            "success_rate": 1.0
+          },
+          "course_code": {
+            "total": 26,
+            "successes": 23,
+            "success_rate": 0.8846153846153846
+          },
+          "course_department_highest_rating": {
+            "total": 11,
+            "successes": 7,
+            "success_rate": 0.6363636363636364
+          },
+          "course_department_time": {
+            "total": 26,
+            "successes": 20,
+            "success_rate": 0.7692307692307693
+          },
+          "course_title": {
+            "total": 20,
+            "successes": 17,
+            "success_rate": 0.85
+          },
+          "shopping_category_highest_rating": {
+            "total": 13,
+            "successes": 1,
+            "success_rate": 0.07692307692307693
+          },
+          "shopping_category_lowest_price": {
+            "total": 11,
+            "successes": 7,
+            "success_rate": 0.6363636363636364
+          },
+          "shopping_color_category": {
+            "total": 26,
+            "successes": 12,
+            "success_rate": 0.46153846153846156
+          },
+          "shopping_name": {
+            "total": 27,
+            "successes": 13,
+            "success_rate": 0.48148148148148145
+          },
+          "shopping_price_lookup": {
+            "total": 27,
+            "successes": 12,
+            "success_rate": 0.4444444444444444
+          },
+          "shopping_under_100_lowest_price": {
+            "total": 2,
+            "successes": 0,
+            "success_rate": 0.0
+          }
+        }
+      },
+      "paired_vs_baseline": {
+        "improved": 10,
+        "regressed": 12,
+        "both_correct": 109,
+        "both_wrong": 69,
+        "net_improvement": -2,
+        "mcnemar_exact_p": 0.8318119049072266,
+        "improved_task_ids": [
+          "shop_00811",
+          "shop_00813",
+          "shop_00814",
+          "course_00828",
+          "course_00863",
+          "course_00877",
+          "course_00888",
+          "course_00912",
+          "course_00942",
+          "course_00994"
+        ],
+        "regressed_task_ids": [
+          "course_00804",
+          "course_00860",
+          "course_00864",
+          "course_00876",
+          "course_00892",
+          "course_00897",
+          "course_00902",
+          "course_00928",
+          "course_00956",
+          "course_00957",
+          "course_00961",
+          "course_00990"
+        ]
+      }
+    }
+  },
+  "aggregate": {
+    "num_seeds": 3,
+    "mean_success_rate": 0.6216666666666667,
+    "sample_std_success_rate": 0.023629078131263064,
+    "mean_delta_vs_baseline": 0.01666666666666672,
+    "mean_invalid_tool_call_rate": 0.017313047377814052,
+    "best_candidate": "seed7",
+    "worst_candidate": "seed29",
+    "majority_threshold": 2,
+    "robust_improvements": [
+      "shop_00811",
+      "shop_00813",
+      "shop_00814",
+      "course_00828",
+      "course_00863",
+      "course_00877",
+      "course_00888",
+      "course_00912",
+      "course_00942",
+      "shop_00964",
+      "course_00994"
+    ],
+    "robust_regressions": [
+      "course_00804",
+      "course_00864",
+      "course_00897",
+      "course_00916",
+      "course_00928",
+      "course_00957"
+    ]
+  },
+  "by_template": {
+    "course_4_credit_department": {
+      "num_tasks": 6,
+      "baseline_success_rate": 0.3333333333333333,
+      "candidate_mean_success_rate": 0.4444444444444444,
+      "mean_delta": 0.1111111111111111,
+      "candidate_success_rates": {
+        "seed7": 0.6666666666666666,
+        "seed17": 0.3333333333333333,
+        "seed29": 0.3333333333333333
+      }
+    },
+    "course_4_credit_highest_rating": {
+      "num_tasks": 5,
+      "baseline_success_rate": 1.0,
+      "candidate_mean_success_rate": 1.0,
+      "mean_delta": 0.0,
+      "candidate_success_rates": {
+        "seed7": 1.0,
+        "seed17": 1.0,
+        "seed29": 1.0
+      }
+    },
+    "course_code": {
+      "num_tasks": 26,
+      "baseline_success_rate": 1.0,
+      "candidate_mean_success_rate": 0.9358974358974359,
+      "mean_delta": -0.0641025641025641,
+      "candidate_success_rates": {
+        "seed7": 0.9615384615384616,
+        "seed17": 0.9615384615384616,
+        "seed29": 0.8846153846153846
+      }
+    },
+    "course_department_highest_rating": {
+      "num_tasks": 11,
+      "baseline_success_rate": 1.0,
+      "candidate_mean_success_rate": 0.6363636363636364,
+      "mean_delta": -0.36363636363636365,
+      "candidate_success_rates": {
+        "seed7": 0.6363636363636364,
+        "seed17": 0.6363636363636364,
+        "seed29": 0.6363636363636364
+      }
+    },
+    "course_department_time": {
+      "num_tasks": 26,
+      "baseline_success_rate": 0.8846153846153846,
+      "candidate_mean_success_rate": 0.8846153846153847,
+      "mean_delta": 1.1102230246251565e-16,
+      "candidate_success_rates": {
+        "seed7": 0.9230769230769231,
+        "seed17": 0.9615384615384616,
+        "seed29": 0.7692307692307693
+      }
+    },
+    "course_title": {
+      "num_tasks": 20,
+      "baseline_success_rate": 0.6,
+      "candidate_mean_success_rate": 0.8166666666666667,
+      "mean_delta": 0.21666666666666667,
+      "candidate_success_rates": {
+        "seed7": 0.85,
+        "seed17": 0.75,
+        "seed29": 0.85
+      }
+    },
+    "shopping_category_highest_rating": {
+      "num_tasks": 13,
+      "baseline_success_rate": 0.07692307692307693,
+      "candidate_mean_success_rate": 0.07692307692307693,
+      "mean_delta": 0.0,
+      "candidate_success_rates": {
+        "seed7": 0.07692307692307693,
+        "seed17": 0.07692307692307693,
+        "seed29": 0.07692307692307693
+      }
+    },
+    "shopping_category_lowest_price": {
+      "num_tasks": 11,
+      "baseline_success_rate": 0.6363636363636364,
+      "candidate_mean_success_rate": 0.696969696969697,
+      "mean_delta": 0.06060606060606066,
+      "candidate_success_rates": {
+        "seed7": 0.7272727272727273,
+        "seed17": 0.7272727272727273,
+        "seed29": 0.6363636363636364
+      }
+    },
+    "shopping_color_category": {
+      "num_tasks": 26,
+      "baseline_success_rate": 0.4230769230769231,
+      "candidate_mean_success_rate": 0.44871794871794873,
+      "mean_delta": 0.02564102564102566,
+      "candidate_success_rates": {
+        "seed7": 0.46153846153846156,
+        "seed17": 0.4230769230769231,
+        "seed29": 0.46153846153846156
+      }
+    },
+    "shopping_name": {
+      "num_tasks": 27,
+      "baseline_success_rate": 0.4074074074074074,
+      "candidate_mean_success_rate": 0.5061728395061729,
+      "mean_delta": 0.09876543209876548,
+      "candidate_success_rates": {
+        "seed7": 0.48148148148148145,
+        "seed17": 0.5555555555555556,
+        "seed29": 0.48148148148148145
+      }
+    },
+    "shopping_price_lookup": {
+      "num_tasks": 27,
+      "baseline_success_rate": 0.4444444444444444,
+      "candidate_mean_success_rate": 0.4444444444444444,
+      "mean_delta": 0.0,
+      "candidate_success_rates": {
+        "seed7": 0.4444444444444444,
+        "seed17": 0.4444444444444444,
+        "seed29": 0.4444444444444444
+      }
+    },
+    "shopping_under_100_lowest_price": {
+      "num_tasks": 2,
+      "baseline_success_rate": 0.0,
+      "candidate_mean_success_rate": 0.0,
+      "mean_delta": 0.0,
+      "candidate_success_rates": {
+        "seed7": 0.0,
+        "seed17": 0.0,
+        "seed29": 0.0
+      }
+    }
+  },
+  "tasks_path": "tasks\\eval_tasks.jsonl"
+}

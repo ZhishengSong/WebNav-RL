@@ -122,8 +122,11 @@ def sequence_kl_penalty(
     with torch.no_grad():
         reference_log_probs, _ = token_log_probs(reference_logits, labels)
     token_counts = mask.sum(dim=1).clamp_min(1)
-    log_ratio = reference_log_probs - policy_log_probs
+    # Compute the cancellation-sensitive k3 estimator in fp32 even when the
+    # models run in fp16. Tiny negative values otherwise appear from rounding.
+    log_ratio = (reference_log_probs - policy_log_probs).float()
     token_kl = torch.exp(log_ratio) - log_ratio - 1.0
+    token_kl = token_kl.clamp_min(0.0)
     sequence_kl = (token_kl * mask).sum(dim=1) / token_counts
     sequence_policy_log_prob = policy_log_probs.sum(dim=1) / token_counts
     sequence_reference_log_prob = reference_log_probs.sum(dim=1) / token_counts

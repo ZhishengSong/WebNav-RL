@@ -8,4 +8,8 @@ outputs/checkpoints/
 outputs/rollouts/*.jsonl
 outputs/trajectories/*.jsonl
 outputs/eval_reports/server_*
+artifacts/server_runs/
+webnav_grpo_results/
+webnav_grpo_results*.tar.gz
+webnav_grpo_multiseed_results*.tar.gz
 *.log

@@ -5,7 +5,7 @@ MODEL_DIR="${MODEL_DIR:-models/qwen2.5-0.5b-instruct}"
 SFT_ADAPTER="${SFT_ADAPTER:-outputs/checkpoints/qwen2_5_0_5b_lora_sft_step200}"
 ROLLOUT_LIMIT="${ROLLOUT_LIMIT:-100}"
 GROUP_SIZE="${GROUP_SIZE:-4}"
-ROLLOUT_FILE="${ROLLOUT_FILE:-outputs/rollouts/grpo_sft_step200_group${GROUP_SIZE}_task${ROLLOUT_LIMIT}.jsonl}"
+ROLLOUT_FILE="${ROLLOUT_FILE:-outputs/rollouts/grpo_sft_step200_train_group${GROUP_SIZE}_task${ROLLOUT_LIMIT}.jsonl}"
 
 GRPO_ADAPTER="${GRPO_ADAPTER:-outputs/checkpoints/qwen2_5_0_5b_lora_grpo_kl_task${ROLLOUT_LIMIT}_group${GROUP_SIZE}_step100}"
 GRPO_STEPS="${GRPO_STEPS:-100}"

@@ -89,6 +89,8 @@ SFT step200 在 200 道 first-step eval 上：
 - invalid tool-call rate：1.88%
 - average model steps：3.195
 
+这里的 63.5% 来自较早的本地 SFT run。后续正式 GRPO 对比在服务器上重新训练并固定同一 checkpoint，受控 baseline 是 60.5%；不能把本地 63.5% 和服务器 GRPO 64.0% 直接相减。
+
 解释：
 
 > SFT 首先解决的是“会不会按协议行动”的问题。Base model 连合法工具调用都不稳定，SFT 后格式准确率达到 100%。在完整多步任务里，模型能完成 63.5% 的 held-out 任务，说明它已经学到了一部分网页导航和点击策略。
@@ -135,7 +137,7 @@ SFT step200 在 200 道 first-step eval 上：
 
 > 这个 reward 不是只看最终答案，而是把格式、过程路径和最终答案结合起来。这样即使模型最后错了，也能区分“格式完全错”“路径部分对但候选错”“最终答案正确”等不同质量的轨迹。
 
-## 7. GRPO 当前进度
+## 7. GRPO 正式实验
 
 已经完成：
 
@@ -144,20 +146,21 @@ SFT step200 在 200 道 first-step eval 上：
 - 在组内计算 advantage：单条 reward 减去同组平均 reward。
 - 输出 group rollout 数据，作为 GRPO 训练输入。
 
-真实 SFT 模型的小规模 group rollout：
+正式训练集 group rollout：
 
-- 4 个任务。
+- 100 个训练任务。
 - 每题 4 个样本。
-- 总共 16 条 rollout。
-- mean reward：0.5656。
+- 总共 400 条 rollout。
+- mean reward：0.5925。
 - success rate：56.25%。
-- 3/4 个 group 有非零 advantage。
+- 40/100 个 group 有非零 advantage。
+- 生成 506 个 nonzero-advantage action examples。
 
 这说明：
 
-> 同一个模型在 temperature 采样下会产生好坏不同的轨迹，因此组内相对优势信号是存在的。这是 GRPO 能继续推进的前提。
+> 同一个模型在 temperature 采样下会产生好坏不同的轨迹，因此组内相对优势信号是存在的。但 60% group 没有 reward 差异，说明当前任务或采样多样性仍是训练效率瓶颈。
 
-## 8. Minimal GRPO Prototype 怎么解释
+## 8. GRPO-KL 结果怎么解释
 
 已经实现了 `training/grpo_train.py`：
 
@@ -168,19 +171,29 @@ SFT step200 在 200 道 first-step eval 上：
 - 加入 frozen SFT reference policy 和 KL penalty，降低 RL 更新把 SFT policy 拉偏的风险。
 - 更新 LoRA adapter。
 
-但是当前 prototype 的结果是：
+在同一台服务器、同一个 200-task eval split 上：
 
-- 20 题 eval 成功率：45%。
-- 同样 20 题上 SFT 约 70%。
-- 所以 prototype 发生了退化。
+| Run | Success rate | Delta vs SFT |
+| --- | ---: | ---: |
+| SFT baseline | 60.5% | - |
+| GRPO-KL seed 7 | 64.0% | +3.5 pp |
+| GRPO-KL seed 17 | 63.0% | +2.5 pp |
+| GRPO-KL seed 29 | 59.5% | -1.0 pp |
 
-这个要诚实讲：
+三次 GRPO-KL 平均成功率是 62.17%，sample standard deviation 是 2.36 pp，平均比 SFT 高 1.67 pp。
 
-> 最早的 minimal prototype 我不会把它包装成性能提升。它的意义是证明 RL 数据流和训练流已经打通了：能采样、能算 reward、能算 advantage、能更新 LoRA、能重新评测。它当时退化的原因也比较明确：数据太少，还没有 KL/reference policy，也没有足够 group 规模。
+最诚实、也最专业的说法：
 
-现在 Step 09 已经补上了 reference/KL 机制，并完成了 1-step smoke run。更准确的说法是：
+> 最佳单次结果从 60.5% 提升到 64.0%，而且工具格式保持 100%。但三 seed 中有一个退化，平均提升只有 1.67 个百分点，因此我把它看作初步正向信号，而不是稳定显著提升。这也说明 RL post-training 的训练方差和数据效率本身就是需要解决的问题。
 
-> 目前 GRPO-KL 的训练基础设施已经打通，但还没有做足够规模的性能实验。下一步要扩大 group rollout，并在同一 eval split 上比较 SFT 和 GRPO-KL adapter。
+seed 7 的配对结果是 12 个错变对、5 个对变错，McNemar p=0.143，没有达到 0.05 显著水平。
+
+模板分析进一步显示：
+
+- `course_title` 平均提升 21.67 pp。
+- `shopping_name` 平均提升 9.88 pp。
+- `course_department_highest_rating` 平均下降 36.36 pp。
+- 排序/筛选后的候选比较总体没有改善。
 
 ## 9. 面试时的完整叙述顺序
 
@@ -190,23 +203,24 @@ SFT step200 在 200 道 first-step eval 上：
 2. 环境能生成页面、任务、专家路径和标准答案。
 3. 我用专家轨迹构造 SFT 数据，训练 Qwen2.5-0.5B 的 LoRA adapter。
 4. Base model 完全不遵守工具格式，SFT 后格式准确率到 100%。
-5. 完整 200 题评测成功率 63.5%，说明模型已经具备基本导航能力。
+5. 本地 SFT run 的 200 题成功率为 63.5%，说明模型已经具备基本导航能力；正式 RL 对比使用同服务器的 60.5% baseline。
 6. 错误分析显示主要问题从格式转向候选选择和点击决策。
 7. 因此我设计了包含格式、路径、答案和非法动作惩罚的 reward。
 8. 再做 group rollout 和 advantage，为 GRPO 做准备。
-9. 当前 GRPO prototype 已打通链路，但还没带来提升，下一步需要 KL、更多 rollouts 和更稳定训练。
+9. 正式 GRPO-KL 最佳单次提升 3.5 pp，多 seed 平均提升 1.67 pp，但存在明显方差。
+10. 下一步不是盲目加训练步数，而是增加有效 advantage group，并针对候选比较改数据和 reward。
 
 ## 10. 如果面试官问“你的贡献是什么”
 
 可以回答：
 
-> 我的贡献主要有三块。第一，我搭了一个可复现的本地网页导航环境和任务生成器，让 agent 训练可以稳定评测。第二，我完成了从专家轨迹到 LoRA SFT 的训练和完整 rollout 评测，把 base model 从不会工具调用提升到 100% 格式准确率和 63.5% 任务成功率。第三，我做了失败模式分析和 reward/GRPO 原型，把项目从 SFT 扩展到 RL post-training 的方向。
+> 我的贡献主要有三块。第一，我搭了一个可复现的本地网页导航环境和任务生成器，让 agent 训练可以稳定验证。第二，我完成了从专家轨迹到 LoRA SFT 的训练和完整 rollout 评测，把 base model 从不会工具调用提升到 100% 格式准确率。第三，我实现了 reward、group rollout、reference KL 和多 seed 配对分析；最佳 GRPO-KL 从同环境 SFT 的 60.5% 提升到 64.0%，同时我也如实分析了 seed 方差和不显著性。
 
 ## 11. 如果面试官问“为什么不用服务器”
 
 可以回答：
 
-> 当前阶段主要是 0.5B 小模型、LoRA、短上下文、本地合成任务，所以本地 RTX 5070 Laptop 足够跑通训练和评测。服务器更适合后续扩大模型、扩大 rollout 数量、做多组采样和正式 GRPO 训练时使用。目前先在本地把方法链路验证清楚，成本更低，也更容易快速迭代。
+> 环境、SFT smoke、reward 和代码验证都在本地完成；服务器只用于 400 条 grouped rollout、多 seed GRPO-KL 和多轮 200-task eval。这样把昂贵算力留给生成和正式评测，日常开发仍在本地，成本和迭代效率更平衡。
 
 ## 12. 如果面试官问“下一步怎么提高”
 
@@ -215,8 +229,8 @@ SFT step200 在 200 道 first-step eval 上：
 - 数据：增加任务模板、页面结构和干扰项，减少对固定元素 ID 的记忆。
 - 模型：继续做 targeted SFT，重点补排序、筛选、多条件候选选择。
 - Reward：用当前 reward 做 rejection sampling 或 reward-weighted SFT。
-- RL：给 GRPO 加 KL/reference policy，扩大 group rollout，再和 SFT baseline 做同 split 对比。
+- RL：提高 group 内采样差异、加入 early stopping，并减少训练 seed 方差。
 
 ## 13. 当前一句话结论
 
-这个项目现在已经完成了从本地环境到 SFT 成功模型、错误分析、reward 设计和 GRPO 原型的完整基础闭环。最强结果是 SFT adapter 在 200 道 held-out 任务上达到 63.5% 成功率和 100% 工具格式准确率；当前最明确的下一步是把 GRPO 从 proof of concept 扩展成稳定、有 KL 约束、更多采样的正式训练实验。
+这个项目已经完成了环境、数据、SFT、评测、错误分析、reward、group rollout、GRPO-KL 和多 seed 统计分析的完整闭环。受控服务器实验中，SFT 为 60.5%，最佳 GRPO-KL 为 64.0%，三 seed 平均为 62.17%；工具格式始终保持 100%。下一步重点是扩大任务结构多样性、改善候选比较，并降低 RL seed 方差。

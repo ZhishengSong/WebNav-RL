@@ -8,7 +8,7 @@
 setup env
 -> download Qwen2.5-0.5B-Instruct
 -> train/recreate SFT step200 adapter
--> collect 100 tasks x group size 4 GRPO rollouts
+-> collect 100 train tasks x group size 4 GRPO rollouts
 -> train GRPO-KL adapter
 -> eval SFT and GRPO-KL on the same 200-task split
 -> generate comparison report
@@ -80,6 +80,7 @@ python -m pip install -r requirements-model.txt
 - local model dir: `models/qwen2.5-0.5b-instruct`
 - SFT steps: `200`
 - rollout: `100 tasks x group size 4`
+- rollout split: `tasks/train_tasks.jsonl`
 - GRPO-KL steps: `100`
 - KL beta: `0.02`
 - eval: `200 tasks`
@@ -158,8 +159,8 @@ outputs/checkpoints/qwen2_5_0_5b_lora_sft_step200
 GRPO rollout：
 
 ```text
-outputs/rollouts/grpo_sft_step200_group4_task100.jsonl
-outputs/eval_reports/grpo_sft_step200_group4_task100_report.json
+outputs/rollouts/grpo_sft_step200_train_group4_task100.jsonl
+outputs/eval_reports/grpo_sft_step200_train_group4_task100_report.json
 ```
 
 GRPO-KL adapter：
@@ -220,6 +221,9 @@ rollout 和 eval 脚本默认使用：
 - 如果 GRPO-KL success rate 高于 SFT，同时 format/invalid 不退化，这是正向结果。
 - 如果 success 持平但 invalid 降低，也值得记录。
 - 如果 success 下降但 KL/loss 正常，说明 reward 或 rollout 数据还不够，需要调数据和超参。
+
+训练 rollout 必须来自 `tasks/train_tasks.jsonl`，最终指标必须来自独立的
+`tasks/eval_tasks.jsonl`。不要在 eval tasks 上采样并训练后，再把同一批任务作为最终评测。
 
 ## 10. 常见问题
 

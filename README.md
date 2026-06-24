@@ -1,6 +1,6 @@
 # WebNav-RL
 
-WebNav-RL is a local, verifiable mini web-navigation project for studying small-model agentic post-training. It builds a deterministic browser-like environment, generates synthetic navigation tasks, creates expert trajectories, trains a LoRA SFT adapter on Qwen2.5-0.5B-Instruct, evaluates full tool-use rollouts, performs error analysis, designs a reward function, and prototypes a GRPO-style update loop.
+WebNav-RL is a local, verifiable mini web-navigation project for studying small-model agentic post-training. It builds a deterministic browser-like environment, generates synthetic navigation tasks, creates expert trajectories, trains a LoRA SFT adapter on Qwen2.5-0.5B-Instruct, evaluates full tool-use rollouts, performs error analysis, designs a reward function, and implements a GRPO-style update loop with reference-policy KL.
 
 The project is intentionally small enough to run on a local laptop, while still covering the main research pipeline:
 
@@ -15,21 +15,23 @@ local web pages
 -> error analysis
 -> reward design
 -> GRPO group rollouts
--> minimal GRPO prototype
+-> reference-policy KL training
+-> multi-seed paired evaluation
 ```
 
 ## Current Status
 
-The latest stable policy is the 200-step LoRA SFT adapter:
+The controlled server experiment uses the 200-step LoRA SFT adapter as its stable baseline:
 
 - Base model: `Qwen/Qwen2.5-0.5B-Instruct`
 - Local model path: `models/qwen2.5-0.5b-instruct`
 - SFT adapter: `outputs/checkpoints/qwen2_5_0_5b_lora_sft_step200`
-- Full 200-task eval success rate: `63.5%`
-- Tool-call format accuracy after SFT: `100%`
-- Invalid tool-call rate in full SFT eval: `1.88%`
+- Server SFT baseline: `121/200 = 60.5%`
+- Best observed GRPO-KL run: `128/200 = 64.0%`
+- Three-seed GRPO-KL mean: `62.17% +/- 2.36 pp`
+- Tool-call format accuracy: `100%` for SFT and all GRPO-KL runs
 
-The GRPO-style trainer is currently a proof of concept. It proves that group rollouts, reward scoring, advantage computation, and LoRA updates are wired together, but the tiny prototype run regressed on eval and should not be presented as a final improvement.
+The best GRPO-KL run improved success by `+3.5 pp`, but the three training seeds scored `64.0%`, `63.0%`, and `59.5%`. The mean improvement is positive (`+1.67 pp`) but seed variance remains substantial, so the result is reported as preliminary positive evidence rather than a stable significant gain.
 
 ## Key Results
 
@@ -37,11 +39,12 @@ The GRPO-style trainer is currently a proof of concept. It proves that group rol
 | --- | --- | --- | --- |
 | Base Qwen first-step eval | 20 tasks, max 1 step | `0.0` format accuracy | Base chat model does not naturally emit the required XML/JSON tool-call format. |
 | SFT step200 first-step eval | 200 tasks, max 1 step | `1.0` format accuracy | LoRA SFT solves the action-format problem. |
-| SFT step200 full rollout | 200 tasks | `127/200 = 63.5%` success | The model can complete many multi-step navigation tasks locally. |
+| Local SFT step200 run | 200 tasks | `127/200 = 63.5%` success | A separate local run established multi-step navigation capability; it is not the server GRPO baseline. |
 | SFT error analysis | 200 tasks | 51 wrong click paths, 18 wrong candidates, 4 invalid calls | Remaining failures are mostly decision quality, not format. |
 | Reward scoring | SFT 200-task trajectories | success mean `0.876`, failure mean `0.221` | Reward separates good and bad rollouts enough for RL experiments. |
 | GRPO group rollout | 4 tasks x 4 samples | mean reward `0.566`, nonzero advantages in 3/4 groups | Sampling creates useful within-group preference signal. |
 | Minimal GRPO prototype | 20 tasks | `45%` success | Training loop works, but tiny/no-KL prototype is not yet an improvement. |
+| Server GRPO-KL | 3 training seeds, 200-task eval | best `64.0%`, mean `62.17%` vs SFT `60.5%` | Positive mean signal, but seed variance remains substantial. |
 
 ## Main Components
 
@@ -57,7 +60,8 @@ The GRPO-style trainer is currently a proof of concept. It proves that group rol
 | Analysis | `eval/error_analysis.py` | Labels failures by behavior type. |
 | Reward | `training/reward.py` | Scores trajectories for RL-style training. |
 | GRPO rollout | `training/grpo_rollout.py` | Samples grouped rollouts and computes group-relative advantages. |
-| GRPO prototype | `training/grpo_train.py` | Runs a minimal advantage-weighted LoRA update. |
+| GRPO-KL training | `training/grpo_train.py` | Runs advantage-weighted LoRA updates with a frozen reference-policy KL penalty. |
+| Multi-seed analysis | `eval/multiseed_analysis.py` | Computes paired transitions, McNemar tests, seed aggregates, and template-level deltas. |
 
 ## Important Artifacts
 
@@ -71,6 +75,8 @@ The GRPO-style trainer is currently a proof of concept. It proves that group rol
 | Reward report | `outputs/eval_reports/sft_qwen_0_5b_step200_eval200_reward_report.json` |
 | GRPO group rollout | `outputs/rollouts/grpo_sft_step200_group4_task4.jsonl` |
 | GRPO prototype adapter | `outputs/checkpoints/qwen2_5_0_5b_lora_grpo_proto_step5` |
+| Final multi-seed analysis | `outputs/eval_reports/grpo_multiseed_analysis.md` |
+| Downloaded server artifacts | `artifacts/server_runs/2026-06-24` |
 
 `models/` and `.python_deps/` are intentionally ignored by git.
 
@@ -119,6 +125,9 @@ The detailed step-by-step notes are in `docs/`:
 - `docs/STEP_07_GRPO_GROUP_ROLLOUT.md`: grouped rollouts and advantages.
 - `docs/STEP_08_MINIMAL_GRPO_PROTOTYPE.md`: minimal GRPO-style training prototype.
 - `docs/STEP_09_GRPO_WITH_KL.md`: reference-policy KL constraint for the GRPO trainer.
+- `docs/STEP_10_SERVER_GRPO_KL_EXPERIMENT.md`: server-scale GRPO-KL result and paired analysis.
+- `docs/FINAL_PROJECT_REPORT.md`: consolidated final technical report.
+- `docs/INTERVIEW_QA.md`: interview narrative, questions, and honest resume wording.
 - `docs/SERVER_RUNBOOK.md`: server upload and GRPO-KL experiment runbook.
 - `docs/PROJECT_SUMMARY.md`: Chinese project summary for interview preparation.
 
@@ -126,12 +135,12 @@ The detailed step-by-step notes are in `docs/`:
 
 The strongest way to describe the project is:
 
-> I built a small but complete local web-navigation post-training pipeline. It starts from deterministic page/task generation, creates expert tool-use trajectories, trains a small Qwen model with LoRA SFT, evaluates real multi-step tool interaction, analyzes failure modes, designs a shaped reward, and then prototypes the GRPO data/training loop. The SFT stage improved the model from failing the tool-call format entirely to 100% format accuracy and 63.5% full-task success on 200 held-out tasks. The current RL stage is intentionally labeled as a prototype because the minimal no-KL update regressed, but the infrastructure for group rollouts and advantage computation is now in place.
+> I built an end-to-end web-navigation post-training pipeline around Qwen2.5-0.5B: deterministic environment and task generation, expert trajectories, LoRA SFT, resumable tool-use evaluation, failure analysis, shaped rewards, grouped rollouts, and reference-policy KL training. In a controlled 200-task server evaluation, the SFT baseline scored 60.5%; the best GRPO-KL run scored 64.0%, while three GRPO seeds averaged 62.17%. Tool-call format accuracy stayed at 100%. I report the gain as preliminary because one seed regressed and paired tests were not significant.
 
 ## Next Work
 
-- Add more diverse tasks and pages to reduce overfitting to element IDs and page templates.
-- Improve candidate selection for sorted/filtered result lists.
-- Add KL/reference-policy control to the GRPO trainer.
-- Scale group rollouts beyond the 4-task smoke setting.
-- Compare SFT-only, reward-reranking, and GRPO-updated adapters on the same full eval split.
+- Add more diverse page structures and held-out layouts to reduce template memorization.
+- Target sorted/filtered candidate comparison, which did not improve under the current reward.
+- Reduce the `60%` zero-advantage group rate through harder tasks or more diverse sampling.
+- Add early stopping and stronger drift monitoring; full-pass training increased invalid calls without improving success.
+- Re-run the improved data/reward design on a 1.5B model only after the environment is more diverse.
