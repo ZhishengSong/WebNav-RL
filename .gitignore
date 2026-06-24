@@ -14,7 +14,10 @@ webnav_grpo_results*.tar.gz
 webnav_grpo_multiseed_results*.tar.gz
 webnav_v2_sft_baseline*.tar.gz
 pages/generated_pages_v2/
+pages/generated_pages_v21/
 tasks/v2/
+tasks/v21/
 training/v2/
+training/v21/
 outputs/eval_reports/v2_*_smoke*
 *.log

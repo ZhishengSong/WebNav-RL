@@ -263,4 +263,22 @@ V2 SFT step1400 已完成，在 held-out layout C 的 500 tasks 上：
 
 Direct lookup 已经能够泛化：shopping name 97.0%，course title 93.9%。但 300 个失败属于 `wrong_candidate_after_filter`，四个最高/最低比较模板为 0%。模型在不同模板中集中选择固定候选位置，例如 under-$100 两个模板始终选择 position 2，说明它仍在利用训练布局中的位置捷径。
 
-因此下一步不直接做 V2 GRPO，而是先做 V2.1：为同一任务生成大量 candidate shuffle 和随机 ID 页面实例，让位置与答案去相关，再训练 targeted SFT。
+因此当时没有直接做 V2 GRPO，而是先设计 V2.1：为同一任务生成大量 candidate shuffle 和随机 ID 页面实例，让位置与答案去相关，再训练 targeted SFT。
+
+## 15. V2.1 候选位置去偏数据
+
+V2.1 数据阶段已经完成：
+
+- 20 个训练页面实例和 5 个独立 grid 评测实例。
+- 1750 个页面、4475 个随机 element ID，train/eval ID overlap 为 0。
+- 6000 train + 1000 eval，15 个模板在 train 中各 400 条。
+- 22400 个 train next-action examples。
+- expert 7000/7000 成功，target path 7000/7000 匹配，非法动作和环境错误均为 0。
+- 4400 条筛选型训练任务中，任一模板的最大单位置占比为 26%。
+- 同一 template-answer 至少覆盖 4 个候选位置，平均覆盖 5.35 个位置。
+
+这里使用 cyclic rotation 而不是只依赖随机 shuffle，使候选位置覆盖可控且可审计。同一个答案在属性不变的情况下出现在不同位置，构成 counterfactual training pair，迫使模型减少对固定位置的依赖。
+
+实现时还发现 20 个实例和 15 个模板按全局索引分配会因 `gcd(20, 15) = 5` 导致每个模板只覆盖 4 个实例。最终改成按模板自身出现次数轮转 context，并在单测中断言每个模板覆盖全部训练实例。
+
+当前尚未得到 V2.1 模型结果。下一步在服务器上用 22400 条 action examples 训练一轮 SFT；effective batch size 为 8 时约 2800 optimizer steps。评测重点不是只看总成功率，而是看 ranking 模板、correct-filter 后 candidate accuracy 和不同候选位置上的鲁棒性。

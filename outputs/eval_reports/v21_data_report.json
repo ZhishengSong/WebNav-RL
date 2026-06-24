@@ -1,0 +1,628 @@
+{
+  "version": "v2.1",
+  "page_manifest": {
+    "version": "v2.1",
+    "seed": 71,
+    "position_strategy": "cyclic_rotation",
+    "train_instances": 20,
+    "eval_instances": 5,
+    "num_pages": 1750,
+    "num_products": 24,
+    "num_courses": 24,
+    "num_element_ids": 4475,
+    "train_eval_element_id_overlap": 0,
+    "layouts": {
+      "v21_train_00": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_00_shop_home",
+        "course_home": "v2_v21_train_00_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_01": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_01_shop_home",
+        "course_home": "v2_v21_train_01_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_02": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_02_shop_home",
+        "course_home": "v2_v21_train_02_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_03": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_03_shop_home",
+        "course_home": "v2_v21_train_03_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_04": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_04_shop_home",
+        "course_home": "v2_v21_train_04_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_05": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_05_shop_home",
+        "course_home": "v2_v21_train_05_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_06": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_06_shop_home",
+        "course_home": "v2_v21_train_06_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_07": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_07_shop_home",
+        "course_home": "v2_v21_train_07_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_08": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_08_shop_home",
+        "course_home": "v2_v21_train_08_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_09": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_09_shop_home",
+        "course_home": "v2_v21_train_09_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_10": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_10_shop_home",
+        "course_home": "v2_v21_train_10_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_11": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_11_shop_home",
+        "course_home": "v2_v21_train_11_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_12": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_12_shop_home",
+        "course_home": "v2_v21_train_12_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_13": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_13_shop_home",
+        "course_home": "v2_v21_train_13_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_14": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_14_shop_home",
+        "course_home": "v2_v21_train_14_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_15": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_15_shop_home",
+        "course_home": "v2_v21_train_15_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_16": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_16_shop_home",
+        "course_home": "v2_v21_train_16_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_17": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_17_shop_home",
+        "course_home": "v2_v21_train_17_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_18": {
+        "split": "train",
+        "style": "list",
+        "shop_home": "v2_v21_train_18_shop_home",
+        "course_home": "v2_v21_train_18_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_train_19": {
+        "split": "train",
+        "style": "compact",
+        "shop_home": "v2_v21_train_19_shop_home",
+        "course_home": "v2_v21_train_19_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_eval_00": {
+        "split": "eval",
+        "style": "grid",
+        "shop_home": "v2_v21_eval_00_shop_home",
+        "course_home": "v2_v21_eval_00_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_eval_01": {
+        "split": "eval",
+        "style": "grid",
+        "shop_home": "v2_v21_eval_01_shop_home",
+        "course_home": "v2_v21_eval_01_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_eval_02": {
+        "split": "eval",
+        "style": "grid",
+        "shop_home": "v2_v21_eval_02_shop_home",
+        "course_home": "v2_v21_eval_02_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_eval_03": {
+        "split": "eval",
+        "style": "grid",
+        "shop_home": "v2_v21_eval_03_shop_home",
+        "course_home": "v2_v21_eval_03_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      },
+      "v21_eval_04": {
+        "split": "eval",
+        "style": "grid",
+        "shop_home": "v2_v21_eval_04_shop_home",
+        "course_home": "v2_v21_eval_04_course_home",
+        "num_pages": 70,
+        "num_element_ids": 179
+      }
+    }
+  },
+  "task_manifest": {
+    "version": "v2.1",
+    "seed": 77,
+    "train_tasks": 6000,
+    "eval_tasks": 1000,
+    "train_layouts": [
+      "v21_train_00",
+      "v21_train_01",
+      "v21_train_02",
+      "v21_train_03",
+      "v21_train_04",
+      "v21_train_05",
+      "v21_train_06",
+      "v21_train_07",
+      "v21_train_08",
+      "v21_train_09",
+      "v21_train_10",
+      "v21_train_11",
+      "v21_train_12",
+      "v21_train_13",
+      "v21_train_14",
+      "v21_train_15",
+      "v21_train_16",
+      "v21_train_17",
+      "v21_train_18",
+      "v21_train_19"
+    ],
+    "eval_layouts": [
+      "v21_eval_00",
+      "v21_eval_01",
+      "v21_eval_02",
+      "v21_eval_03",
+      "v21_eval_04"
+    ],
+    "expert_element_id_overlap": 0,
+    "train_template_counts": {
+      "v2_shopping_category_budget_highest_rating": 400,
+      "v2_shopping_category_lowest_price": 400,
+      "v2_course_credits_highest_rating": 400,
+      "v2_shopping_category_highest_rating": 400,
+      "v2_shopping_under_100_lowest_price": 400,
+      "v2_shopping_price_lookup": 400,
+      "v2_course_department_time": 400,
+      "v2_course_code": 400,
+      "v2_course_title": 400,
+      "v2_shopping_name": 400,
+      "v2_shopping_color_category": 400,
+      "v2_course_department_highest_rating": 400,
+      "v2_course_credits_department": 400,
+      "v2_course_department_credits_highest_rating": 400,
+      "v2_shopping_under_100_highest_rating": 400
+    },
+    "eval_template_counts": {
+      "v2_course_title": 67,
+      "v2_course_department_highest_rating": 67,
+      "v2_shopping_category_highest_rating": 67,
+      "v2_shopping_price_lookup": 67,
+      "v2_shopping_color_category": 67,
+      "v2_course_code": 67,
+      "v2_course_credits_department": 67,
+      "v2_shopping_under_100_highest_rating": 67,
+      "v2_shopping_name": 67,
+      "v2_course_department_credits_highest_rating": 67,
+      "v2_shopping_under_100_lowest_price": 66,
+      "v2_shopping_category_lowest_price": 66,
+      "v2_course_department_time": 66,
+      "v2_shopping_category_budget_highest_rating": 66,
+      "v2_course_credits_highest_rating": 66
+    },
+    "difficulty_counts": {
+      "hard": 4199,
+      "easy": 1868,
+      "medium": 933
+    }
+  },
+  "summary": {
+    "num_tasks": 7000,
+    "train_tasks": 6000,
+    "eval_tasks": 1000,
+    "expert_successes": 7000,
+    "expert_success_rate": 1.0,
+    "invalid_actions": 0,
+    "action_errors": 0,
+    "expert_path_target_matches": 7000,
+    "average_steps": 3.733142857142857,
+    "train_sft_trajectories": 6000,
+    "eval_sft_trajectories": 1000,
+    "train_next_action_examples": 22400,
+    "eval_next_action_examples": 3732,
+    "templates": 15
+  },
+  "paths": {
+    "metadata": "pages/generated_pages_v21/metadata.json",
+    "train_tasks": "tasks/v21/train_tasks.jsonl",
+    "eval_tasks": "tasks/v21/eval_tasks.jsonl",
+    "train_trajectories": "outputs/trajectories/v21_expert_train_trajectories.jsonl",
+    "eval_trajectories": "outputs/trajectories/v21_expert_eval_trajectories.jsonl",
+    "train_sft": "training/v21/sft_train.jsonl",
+    "eval_sft": "training/v21/sft_eval.jsonl"
+  },
+  "train_position_audit": {
+    "filtered_tasks": 4400,
+    "templates": 11,
+    "max_template_position_share": 0.26,
+    "min_answer_unique_positions": 4,
+    "mean_answer_unique_positions": 5.353535353535354,
+    "by_template": {
+      "v2_course_credits_department": {
+        "total": 400,
+        "position_counts": {
+          "1": 32,
+          "2": 31,
+          "3": 31,
+          "4": 36,
+          "5": 30,
+          "6": 32,
+          "7": 33,
+          "8": 34,
+          "9": 36,
+          "10": 36,
+          "11": 36,
+          "12": 33
+        },
+        "unique_positions": 12,
+        "max_position_share": 0.09
+      },
+      "v2_course_credits_highest_rating": {
+        "total": 400,
+        "position_counts": {
+          "1": 30,
+          "2": 30,
+          "3": 20,
+          "4": 20,
+          "5": 30,
+          "6": 30,
+          "7": 40,
+          "8": 40,
+          "9": 40,
+          "10": 40,
+          "11": 40,
+          "12": 40
+        },
+        "unique_positions": 12,
+        "max_position_share": 0.1
+      },
+      "v2_course_department_credits_highest_rating": {
+        "total": 400,
+        "position_counts": {
+          "1": 96,
+          "2": 101,
+          "3": 100,
+          "4": 103
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.2575
+      },
+      "v2_course_department_highest_rating": {
+        "total": 400,
+        "position_counts": {
+          "1": 101,
+          "2": 100,
+          "3": 102,
+          "4": 97
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.255
+      },
+      "v2_course_department_time": {
+        "total": 400,
+        "position_counts": {
+          "1": 94,
+          "2": 102,
+          "3": 104,
+          "4": 100
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.26
+      },
+      "v2_shopping_category_budget_highest_rating": {
+        "total": 400,
+        "position_counts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.25
+      },
+      "v2_shopping_category_highest_rating": {
+        "total": 400,
+        "position_counts": {
+          "1": 101,
+          "2": 98,
+          "3": 100,
+          "4": 101
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.2525
+      },
+      "v2_shopping_category_lowest_price": {
+        "total": 400,
+        "position_counts": {
+          "1": 98,
+          "2": 99,
+          "3": 100,
+          "4": 103
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.2575
+      },
+      "v2_shopping_color_category": {
+        "total": 400,
+        "position_counts": {
+          "1": 100,
+          "2": 100,
+          "3": 104,
+          "4": 96
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.26
+      },
+      "v2_shopping_under_100_highest_rating": {
+        "total": 400,
+        "position_counts": {
+          "1": 20,
+          "2": 20,
+          "3": 20,
+          "4": 40,
+          "5": 40,
+          "6": 40,
+          "7": 40,
+          "8": 40,
+          "9": 20,
+          "10": 20,
+          "11": 20,
+          "12": 20,
+          "13": 20,
+          "14": 20,
+          "15": 20
+        },
+        "unique_positions": 15,
+        "max_position_share": 0.1
+      },
+      "v2_shopping_under_100_lowest_price": {
+        "total": 400,
+        "position_counts": {
+          "1": 20,
+          "2": 20,
+          "3": 20,
+          "4": 20,
+          "5": 20,
+          "6": 20,
+          "7": 20,
+          "8": 40,
+          "9": 40,
+          "10": 40,
+          "11": 40,
+          "12": 40,
+          "13": 20,
+          "14": 20,
+          "15": 20
+        },
+        "unique_positions": 15,
+        "max_position_share": 0.1
+      }
+    }
+  },
+  "eval_position_audit": {
+    "filtered_tasks": 732,
+    "templates": 11,
+    "max_template_position_share": 0.3787878787878788,
+    "min_answer_unique_positions": 1,
+    "mean_answer_unique_positions": 3.5,
+    "by_template": {
+      "v2_course_credits_department": {
+        "total": 67,
+        "position_counts": {
+          "1": 5,
+          "2": 8,
+          "3": 4,
+          "4": 6,
+          "5": 5,
+          "6": 5,
+          "7": 6,
+          "8": 6,
+          "9": 4,
+          "10": 5,
+          "11": 7,
+          "12": 6
+        },
+        "unique_positions": 12,
+        "max_position_share": 0.11940298507462686
+      },
+      "v2_course_credits_highest_rating": {
+        "total": 66,
+        "position_counts": {
+          "1": 6,
+          "2": 12,
+          "3": 13,
+          "4": 14,
+          "5": 7,
+          "6": 7,
+          "12": 7
+        },
+        "unique_positions": 7,
+        "max_position_share": 0.21212121212121213
+      },
+      "v2_course_department_credits_highest_rating": {
+        "total": 67,
+        "position_counts": {
+          "1": 15,
+          "2": 17,
+          "3": 17,
+          "4": 18
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.26865671641791045
+      },
+      "v2_course_department_highest_rating": {
+        "total": 67,
+        "position_counts": {
+          "1": 15,
+          "2": 16,
+          "3": 15,
+          "4": 21
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.31343283582089554
+      },
+      "v2_course_department_time": {
+        "total": 66,
+        "position_counts": {
+          "1": 18,
+          "2": 21,
+          "3": 13,
+          "4": 14
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.3181818181818182
+      },
+      "v2_shopping_category_budget_highest_rating": {
+        "total": 66,
+        "position_counts": {
+          "1": 15,
+          "2": 25,
+          "3": 12,
+          "4": 14
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.3787878787878788
+      },
+      "v2_shopping_category_highest_rating": {
+        "total": 67,
+        "position_counts": {
+          "1": 16,
+          "2": 17,
+          "3": 18,
+          "4": 16
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.26865671641791045
+      },
+      "v2_shopping_category_lowest_price": {
+        "total": 66,
+        "position_counts": {
+          "1": 13,
+          "2": 15,
+          "3": 20,
+          "4": 18
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.30303030303030304
+      },
+      "v2_shopping_color_category": {
+        "total": 67,
+        "position_counts": {
+          "1": 15,
+          "2": 20,
+          "3": 14,
+          "4": 18
+        },
+        "unique_positions": 4,
+        "max_position_share": 0.29850746268656714
+      },
+      "v2_shopping_under_100_highest_rating": {
+        "total": 67,
+        "position_counts": {
+          "1": 13,
+          "2": 14,
+          "3": 14,
+          "14": 13,
+          "15": 13
+        },
+        "unique_positions": 5,
+        "max_position_share": 0.208955223880597
+      },
+      "v2_shopping_under_100_lowest_price": {
+        "total": 66,
+        "position_counts": {
+          "3": 13,
+          "4": 13,
+          "5": 13,
+          "6": 13,
+          "7": 14
+        },
+        "unique_positions": 5,
+        "max_position_share": 0.21212121212121213
+      }
+    }
+  }
+}

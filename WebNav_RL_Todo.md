@@ -41,6 +41,7 @@ Reward / Error Analysis / Group Rollout
 Reference-policy KL 的 GRPO-style LoRA 更新
 3 个训练 seed 的 200-task 配对评测
 V2 随机 ID、多布局、结构级 held-out 数据环境
+V2.1 多实例 candidate rotation、位置去偏审计与 expert 验证数据
 ```
 
 V1 受控服务器实验：
@@ -81,7 +82,7 @@ V2 结构泛化数据：
 
 V2 使用 train A/B 两种布局和 held-out eval C，所有 element ID 都是随机 token，并在 observation 中显式展示。15 个模板在 train 中各 200 条，重点覆盖排序、筛选和多条件候选比较。
 
-**Step 12 V2 SFT baseline 已完成，当前进入 Step 13：V2.1 Candidate-Shuffled SFT。**
+**Step 13 V2.1 candidate-shuffled 数据阶段已完成，下一步是服务器训练 V2.1 SFT。**
 
 ```text
 V2 SFT optimizer steps: 1400
@@ -95,10 +96,25 @@ wrong candidate failures: 300
 当前优先级：
 
 ```text
-1. 生成 candidate-shuffled 多实例训练页面
-2. 解除 position 与 target answer 的相关性
-3. 训练 V2.1 targeted SFT
+1. 在服务器训练 22400-example V2.1 targeted SFT
+2. 评测 1000 条独立 V2.1 eval tasks
+3. 对比 candidate accuracy、position robustness 和 15 个模板
 4. ranking baseline 稳定非零后再决定是否进入 V2 GRPO
+```
+
+V2.1 数据审计：
+
+```json
+{
+  "pages": 1750,
+  "train_tasks": 6000,
+  "eval_tasks": 1000,
+  "train_next_action_examples": 22400,
+  "expert_successes": 7000,
+  "train_eval_element_id_overlap": 0,
+  "max_template_position_share": 0.26,
+  "min_answer_unique_positions": 4
+}
 ```
 
 ---
@@ -465,7 +481,7 @@ Todo：
 - [x] 保存 checkpoint
 - [x] 记录 loss 日志
 - [x] 保存训练 metadata
-- [ ] 完成 V2 LoRA SFT step1400（当前进行中）
+- [x] 完成 V2 LoRA SFT step1400
 
 建议配置：
 
@@ -498,9 +514,9 @@ Todo：
 - [x] 比较指标
 - [x] 输出 `eval_report.json`
 - [x] 保存失败案例
-- [ ] 完成 V2 held-out layout C 的 500-task SFT eval
+- [x] 完成 V2 held-out layout C 的 500-task SFT eval
 
-当前状态：V1 Base/SFT/GRPO 已完成完整对比。V2 eval runner 已支持 `--metadata`，并通过 held-out layout expert replay smoke；待 V2 SFT checkpoint 完成后运行正式 500-task eval。
+当前状态：V1 Base/SFT/GRPO 已完成完整对比；V2 SFT 已完成 500-task 正式 eval 和行为分析；V2.1 candidate-shuffled 数据已就绪，待服务器训练。
 
 完成标准：
 
@@ -698,7 +714,11 @@ SFT + GRPO 比 SFT 有至少一个核心指标提升：
 - [x] 分析 filter / candidate 两阶段 action funnel
 - [x] 识别模板相关 position shortcut
 - [x] 决定暂不启动 V2 GRPO
-- [ ] 实现 V2.1 candidate shuffle 与 counterfactual page instances
+- [x] 实现 V2.1 candidate shuffle 与 counterfactual page instances
+- [x] 生成 6000/1000 tasks 与 22400 train action examples
+- [x] 完成 7000/7000 expert replay 与 target-path 验证
+- [x] 审计 position 去偏：max template share 26%，每个答案至少覆盖 4 个位置
+- [x] 写 `docs/STEP_13_V21_CANDIDATE_SHUFFLE.md`
 - [ ] 训练 V2.1 targeted SFT
 
 ---
@@ -728,7 +748,7 @@ Todo：
 
 - [x] 给任务打 easy / medium / hard label
 - [x] V2 生成 500 条均衡模板 eval tasks
-- [ ] 完成 V2 模型后分别统计 difficulty 成功率
+- [x] 完成 V2 模型后分别统计 difficulty 成功率
 - [x] V1 已完成 template-level 提升/退化分析
 
 ---
@@ -1086,7 +1106,8 @@ technical report
 [x] 完成 V2 SFT step1400
 [x] 完成 V2 held-out layout C 500-task eval
 [x] 完成 V2 filter/candidate/position 行为分析
-[ ] 完成 V2.1 candidate-shuffled targeted SFT
+[x] 完成 V2.1 candidate-shuffled 数据生成与位置审计
+[ ] 完成 V2.1 targeted SFT 训练与 1000-task eval
 [ ] 画架构图和结果图
 ```
 

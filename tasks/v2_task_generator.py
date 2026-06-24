@@ -212,6 +212,9 @@ def balanced_tasks(
     contexts: list[LayoutContext],
     split: str,
     seed: int,
+    dataset_version: str = "v2",
+    task_prefix: str = "v2",
+    spread_templates_across_contexts: bool = False,
 ) -> list[dict[str, Any]]:
     rng = random.Random(seed)
     pools: dict[str, dict[str, list[dict[str, Any]]]] = {}
@@ -233,8 +236,12 @@ def balanced_tasks(
     tasks = []
     positions: Counter[tuple[str, str]] = Counter()
     for index in range(count):
-        context = contexts[index % len(contexts)]
         template = template_order[index % len(template_order)]
+        if spread_templates_across_contexts:
+            template_occurrence = index // len(template_order)
+            context = contexts[template_occurrence % len(contexts)]
+        else:
+            context = contexts[index % len(contexts)]
         pool = pools[context.layout_id][template]
         key = (context.layout_id, template)
         order = orders[key]
@@ -247,7 +254,7 @@ def balanced_tasks(
         start_page = context.shop_home if is_shopping else context.course_home
         tasks.append(
             {
-                "task_id": f"v2_{split}_{index + 1:05d}",
+                "task_id": f"{task_prefix}_{split}_{index + 1:05d}",
                 "start_page": start_page,
                 "instruction": paraphrase(spec["goal"], start_page, rng),
                 "target_answer": spec["answer"],
@@ -259,7 +266,7 @@ def balanced_tasks(
                 "split": split,
                 "layout_id": context.layout_id,
                 "structure_split": "seen_layout" if split == "train" else "held_out_layout",
-                "dataset_version": "v2",
+                "dataset_version": dataset_version,
             }
         )
     return tasks
@@ -270,18 +277,37 @@ def generate_v2_tasks(
     train_count: int = 3000,
     eval_count: int = 500,
     seed: int = 37,
+    dataset_version: str = "v2",
+    task_prefix: str = "v2",
+    spread_templates_across_contexts: bool = False,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
     train_contexts = [context for context in contexts if context.split == "train"]
     eval_contexts = [context for context in contexts if context.split == "eval"]
     if not train_contexts or not eval_contexts:
         raise ValueError("V2 generation requires both train and eval layout contexts")
-    train_tasks = balanced_tasks(train_count, train_contexts, "train", seed + 1)
-    eval_tasks = balanced_tasks(eval_count, eval_contexts, "eval", seed + 2)
+    train_tasks = balanced_tasks(
+        train_count,
+        train_contexts,
+        "train",
+        seed + 1,
+        dataset_version=dataset_version,
+        task_prefix=task_prefix,
+        spread_templates_across_contexts=spread_templates_across_contexts,
+    )
+    eval_tasks = balanced_tasks(
+        eval_count,
+        eval_contexts,
+        "eval",
+        seed + 2,
+        dataset_version=dataset_version,
+        task_prefix=task_prefix,
+        spread_templates_across_contexts=spread_templates_across_contexts,
+    )
 
     train_ids = {click for task in train_tasks for click in task["expert_clicks"]}
     eval_ids = {click for task in eval_tasks for click in task["expert_clicks"]}
     manifest = {
-        "version": "v2",
+        "version": dataset_version,
         "seed": seed,
         "train_tasks": len(train_tasks),
         "eval_tasks": len(eval_tasks),

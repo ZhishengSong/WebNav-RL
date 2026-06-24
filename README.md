@@ -35,6 +35,8 @@ The best GRPO-KL run improved success by `+3.5 pp`, but the three training seeds
 
 V2 adds randomized visible element IDs, two seen train layouts, one structurally held-out eval layout, balanced targeted comparison tasks, and 3,500 expert-verified trajectories. The first V2 SFT baseline scored `31.2%` on 500 held-out-layout tasks with `99.95%` tool-call format accuracy. Behavior analysis shows `95.9%` correct filter selection but only `15.0%` candidate accuracy after a correct filter, revealing positional shortcuts rather than reliable attribute comparison.
 
+V2.1 fixes that data shortcut with 20 candidate-rotated train instances and 5 independent eval instances. It contains 6,000 train and 1,000 eval tasks, produces 22,400 train next-action examples, passes `7,000/7,000` expert verification, and reduces the largest per-template target-position share to `26%`. The V2.1 model experiment is the next server step; these numbers describe data readiness, not model performance.
+
 ## Key Results
 
 | Stage | Eval | Result | Interpretation |
@@ -49,6 +51,7 @@ V2 adds randomized visible element IDs, two seen train layouts, one structurally
 | Server GRPO-KL | 3 training seeds, 200-task eval | best `64.0%`, mean `62.17%` vs SFT `60.5%` | Positive mean signal, but seed variance remains substantial. |
 | V2 data readiness | 3,000 train + 500 held-out eval | `3,500/3,500` expert success, zero train/eval ID overlap | Tests structural generalization instead of fixed-ID memorization. |
 | V2 SFT baseline | 500 held-out-layout tasks | `31.2%` success, `99.95%` format accuracy | Protocol and filter selection generalize; candidate comparison does not. |
+| V2.1 data readiness | 6,000 train + 1,000 held-out eval | `7,000/7,000` expert success, max target-position share `26%` | Breaks the answer-position shortcut before another SFT run. |
 
 ## Main Components
 
@@ -70,6 +73,8 @@ V2 adds randomized visible element IDs, two seen train layouts, one structurally
 | V2 tasks | `tasks/v2_task_generator.py` | Creates balanced targeted tasks with a held-out structural split. |
 | V2 pipeline | `scripts/run_v2_data.py` | Generates pages/tasks, verifies expert trajectories, and builds SFT data. |
 | V2 behavior analysis | `eval/v2_behavior_analysis.py` | Measures filter accuracy, candidate accuracy, and positional selection bias. |
+| V2.1 pages | `pages/v21_generator.py` | Creates candidate-rotated counterfactual page instances with fresh IDs. |
+| V2.1 pipeline | `scripts/run_v21_data.py` | Generates data, audits position coverage, verifies experts, and builds SFT examples. |
 
 ## Important Artifacts
 
@@ -87,6 +92,7 @@ V2 adds randomized visible element IDs, two seen train layouts, one structurally
 | Downloaded server artifacts | `artifacts/server_runs/2026-06-24` |
 | V2 SFT eval report | `outputs/eval_reports/v2_sft_step1400_eval500_report.json` |
 | V2 behavior analysis | `outputs/eval_reports/v2_sft_step1400_behavior_analysis.md` |
+| V2.1 data audit | `outputs/eval_reports/v21_data_report.json` |
 
 `models/` and `.python_deps/` are intentionally ignored by git.
 
@@ -102,6 +108,12 @@ Generate and verify the V2 structural-generalization dataset:
 
 ```bash
 python scripts/run_v2_data.py --train-tasks 3000 --eval-tasks 500 --seed 31
+```
+
+Generate and verify the candidate-shuffled V2.1 dataset:
+
+```bash
+python scripts/run_v21_data.py --train-tasks 6000 --eval-tasks 1000 --train-instances 20 --eval-instances 5 --seed 71
 ```
 
 Run unit tests:
@@ -144,6 +156,7 @@ The detailed step-by-step notes are in `docs/`:
 - `docs/STEP_10_SERVER_GRPO_KL_EXPERIMENT.md`: server-scale GRPO-KL result and paired analysis.
 - `docs/STEP_11_V2_ENVIRONMENT.md`: randomized IDs, multi-layout pages, balanced tasks, and held-out split.
 - `docs/STEP_12_V2_SFT_BASELINE.md`: first held-out-layout model baseline and positional shortcut analysis.
+- `docs/STEP_13_V21_CANDIDATE_SHUFFLE.md`: multi-instance candidate rotation, position audit, and expert-verified V2.1 data.
 - `docs/FINAL_PROJECT_REPORT.md`: consolidated final technical report.
 - `docs/INTERVIEW_QA.md`: interview narrative, questions, and honest resume wording.
 - `docs/SERVER_RUNBOOK.md`: server upload and GRPO-KL experiment runbook.
@@ -157,8 +170,8 @@ The strongest way to describe the project is:
 
 ## Next Work
 
-- Generate many shuffled train page instances so candidate positions cannot be memorized.
-- Train a V2.1 SFT baseline before attempting V2 GRPO.
+- Train a V2.1 SFT baseline on the completed 22,400-example candidate-shuffled dataset.
+- Compare per-template and per-position candidate accuracy before attempting V2 GRPO.
 - Reduce the `60%` zero-advantage group rate through harder tasks or more diverse sampling.
 - Add early stopping and stronger drift monitoring; full-pass training increased invalid calls without improving success.
 - Re-run the improved data/reward design on a 1.5B model only after the environment is more diverse.

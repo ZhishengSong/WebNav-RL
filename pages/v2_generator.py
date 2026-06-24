@@ -106,8 +106,18 @@ class LayoutContext:
     page_ids: set[str] = field(default_factory=set)
 
 
-def ordered(items: Iterable[T], rng: random.Random, style: str) -> list[T]:
+def ordered(
+    items: Iterable[T],
+    rng: random.Random,
+    style: str,
+    rotation_index: int | None = None,
+) -> list[T]:
     values = list(items)
+    if rotation_index is not None:
+        if values:
+            offset = rotation_index % len(values)
+            values = values[offset:] + values[:offset]
+        return values
     if style == "list":
         return values
     if style == "compact":
@@ -182,7 +192,13 @@ def control_text(element_id: str, label: str, style: str) -> str:
     return f"[element_id={element_id}] {label}"
 
 
-def create_layout(layout_id: str, split: str, style: str, seed: int) -> tuple[dict[str, Any], LayoutContext]:
+def create_layout(
+    layout_id: str,
+    split: str,
+    style: str,
+    seed: int,
+    rotation_index: int | None = None,
+) -> tuple[dict[str, Any], LayoutContext]:
     rng = random.Random(seed)
     ids = ElementIdFactory(rng)
     namespace = f"v2_{layout_id}"
@@ -215,7 +231,12 @@ def create_layout(layout_id: str, split: str, style: str, seed: int) -> tuple[di
         category_pages[category] = (page_id, filter_id)
         elements = []
         texts = []
-        matches = ordered((p for p in PRODUCTS_V2 if p.category == category), rng, style)
+        matches = ordered(
+            (p for p in PRODUCTS_V2 if p.category == category),
+            rng,
+            style,
+            rotation_index=rotation_index,
+        )
         for product in matches:
             element_id = ids.new()
             elements.append({"element_id": element_id, "text": product.name, "target_page": product_details[product.name]})
@@ -234,7 +255,12 @@ def create_layout(layout_id: str, split: str, style: str, seed: int) -> tuple[di
     under_filter_id = ids.new()
     under_elements = []
     under_texts = []
-    for product in ordered((p for p in PRODUCTS_V2 if p.price < 100), rng, style):
+    for product in ordered(
+        (p for p in PRODUCTS_V2 if p.price < 100),
+        rng,
+        style,
+        rotation_index=rotation_index,
+    ):
         element_id = ids.new()
         under_elements.append({"element_id": element_id, "text": product.name, "target_page": product_details[product.name]})
         under_texts.append(product_text(product, element_id, style))
@@ -291,7 +317,7 @@ def create_layout(layout_id: str, split: str, style: str, seed: int) -> tuple[di
         shop_controls.append(control_text(distractor_id, label, style))
 
     shop_texts = []
-    for product in ordered(PRODUCTS_V2, rng, style):
+    for product in ordered(PRODUCTS_V2, rng, style, rotation_index=rotation_index):
         element_id = ids.new()
         shop_elements.append({"element_id": element_id, "text": product.name, "target_page": product_details[product.name]})
         shop_texts.append(product_text(product, element_id, style))
@@ -329,7 +355,12 @@ def create_layout(layout_id: str, split: str, style: str, seed: int) -> tuple[di
         department_pages[department] = (page_id, filter_id)
         elements = []
         texts = []
-        matches = ordered((c for c in COURSES_V2 if c.department == department), rng, style)
+        matches = ordered(
+            (c for c in COURSES_V2 if c.department == department),
+            rng,
+            style,
+            rotation_index=rotation_index,
+        )
         for course in matches:
             element_id = ids.new()
             elements.append({"element_id": element_id, "text": course.code, "target_page": course_details[course.code]})
@@ -351,7 +382,12 @@ def create_layout(layout_id: str, split: str, style: str, seed: int) -> tuple[di
         credit_pages[credits] = (page_id, filter_id)
         elements = []
         texts = []
-        matches = ordered((c for c in COURSES_V2 if c.credits == credits), rng, style)
+        matches = ordered(
+            (c for c in COURSES_V2 if c.credits == credits),
+            rng,
+            style,
+            rotation_index=rotation_index,
+        )
         for course in matches:
             element_id = ids.new()
             elements.append({"element_id": element_id, "text": course.code, "target_page": course_details[course.code]})
@@ -389,7 +425,7 @@ def create_layout(layout_id: str, split: str, style: str, seed: int) -> tuple[di
         course_controls.append(control_text(distractor_id, label, style))
 
     course_texts = []
-    for course in ordered(COURSES_V2, rng, style):
+    for course in ordered(COURSES_V2, rng, style, rotation_index=rotation_index):
         element_id = ids.new()
         course_elements.append({"element_id": element_id, "text": course.code, "target_page": course_details[course.code]})
         course_texts.append(course_text(course, element_id, style))

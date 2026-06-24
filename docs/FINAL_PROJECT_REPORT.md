@@ -195,7 +195,7 @@ seed 7：
 
 ## 12. 局限性
 
-- V1 页面和 ID 固定；V2 已从数据层修复，但模型尚未接受 V2 评测。
+- V1 页面和 ID 固定；V2 已完成结构级 held-out 评测，V2.1 进一步修复候选位置相关性。
 - V2 仍是合成页面，真实网页泛化尚未验证。
 - 60% rollout groups 没有 advantage，数据效率偏低。
 - GRPO trainer 是简化实现，没有完整 PPO ratio clipping。
@@ -206,9 +206,9 @@ seed 7：
 
 优先级从高到低：
 
-1. V2 页面布局、随机 ID、干扰项和结构级 held-out split 已完成。
-2. 下一步训练 V2 SFT，并在未见 layout C 的 500 tasks 上建立 baseline。
-3. 根据 V2 模板结果改进排序、筛选和多条件比较的过程 reward。
+1. V2.1 多实例 candidate rotation 数据已完成并通过位置审计。
+2. 下一步训练 V2.1 SFT，并在 1000 条独立 eval tasks 上评测。
+3. 根据 candidate accuracy 和 position robustness 决定是否改进过程 reward。
 4. 提升 group 内多样性，减少 zero-advantage groups。
 5. 加入 early stopping、KL drift 聚合日志和 checkpoint selection。
 6. V2 数据与 reward 验证后，再迁移到 Qwen 1.5B。
@@ -229,4 +229,12 @@ seed 7：
 
 ## 15. 最终一句话
 
-WebNav-RL 已完成从可验证环境、专家数据、LoRA SFT 到 GRPO-KL 和多 seed 统计分析的端到端闭环。V2 进一步证明模型能在未见随机 ID 上保持工具格式和直接实体定位，但候选比较受到明显位置捷径影响；下一步将通过多实例 shuffle 数据消除这一 shortcut。
+WebNav-RL 已完成从可验证环境、专家数据、LoRA SFT 到 GRPO-KL 和多 seed 统计分析的端到端闭环。V2 进一步证明模型能在未见随机 ID 上保持工具格式和直接实体定位，但候选比较受到明显位置捷径影响；V2.1 已用多实例循环换位从数据层消除这一 shortcut，下一步是训练并验证模型是否真正学会候选比较。
+
+## 16. V2.1 Candidate-Shuffled Data
+
+针对 V2 的位置捷径，项目生成了 20 个训练页面实例和 5 个独立评测实例。每个实例重新生成 element ID，并对候选列表做 cyclic rotation，使相同答案在不同 observation 位置出现。
+
+最终数据包含 6000 train tasks、1000 eval tasks 和 22400 个 train next-action examples。7000 条任务全部通过 expert replay 和最终 target-page 验证，train/eval element ID overlap 为 0。位置审计显示，筛选型模板的最大单位置占比降到 26%，每个 template-answer 至少覆盖 4 个位置。
+
+这个阶段只证明数据分布和 expert 路径正确，不代表模型性能已经提高。下一步是在服务器训练约 2800 optimizer steps 的一轮 V2.1 SFT，并与 V2 的 31.2% baseline 比较总成功率、ranking 模板、筛选后候选准确率和位置鲁棒性。
