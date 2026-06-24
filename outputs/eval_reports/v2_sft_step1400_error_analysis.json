@@ -1,0 +1,464 @@
+{
+  "trajectory_path": "outputs/trajectories/v2_sft_step1400_eval500_trajectories.jsonl",
+  "tasks_path": "tasks/v2/eval_tasks.jsonl",
+  "num_trajectories": 500,
+  "successes": 156,
+  "failures": 344,
+  "success_rate": 0.312,
+  "failure_rate": 0.688,
+  "error_counts": {
+    "wrong_candidate_after_filter": 300,
+    "success": 156,
+    "wrong_click_path": 30,
+    "invalid_tool_call": 13,
+    "format_error": 1
+  },
+  "error_rates": {
+    "wrong_candidate_after_filter": 0.6,
+    "success": 0.312,
+    "wrong_click_path": 0.06,
+    "invalid_tool_call": 0.026,
+    "format_error": 0.002
+  },
+  "by_page_type": {
+    "shopping": {
+      "wrong_candidate_after_filter": 175,
+      "success": 74,
+      "wrong_click_path": 16,
+      "invalid_tool_call": 2,
+      "format_error": 1
+    },
+    "course": {
+      "wrong_candidate_after_filter": 125,
+      "success": 82,
+      "wrong_click_path": 14,
+      "invalid_tool_call": 11
+    }
+  },
+  "by_difficulty": {
+    "hard": {
+      "wrong_candidate_after_filter": 254,
+      "success": 40,
+      "wrong_click_path": 2,
+      "invalid_tool_call": 6
+    },
+    "medium": {
+      "wrong_candidate_after_filter": 46,
+      "success": 13,
+      "invalid_tool_call": 6,
+      "format_error": 1
+    },
+    "easy": {
+      "success": 103,
+      "wrong_click_path": 28,
+      "invalid_tool_call": 1
+    }
+  },
+  "by_template": {
+    "v2_shopping_under_100_highest_rating": {
+      "wrong_candidate_after_filter": 34
+    },
+    "v2_shopping_category_lowest_price": {
+      "wrong_candidate_after_filter": 23,
+      "success": 11
+    },
+    "v2_shopping_category_budget_highest_rating": {
+      "wrong_candidate_after_filter": 27,
+      "success": 7
+    },
+    "v2_course_credits_department": {
+      "wrong_candidate_after_filter": 28,
+      "success": 6
+    },
+    "v2_shopping_category_highest_rating": {
+      "wrong_candidate_after_filter": 34
+    },
+    "v2_course_credits_highest_rating": {
+      "wrong_candidate_after_filter": 33
+    },
+    "v2_course_department_time": {
+      "wrong_candidate_after_filter": 22,
+      "success": 6,
+      "invalid_tool_call": 5
+    },
+    "v2_shopping_name": {
+      "success": 32,
+      "wrong_click_path": 1
+    },
+    "v2_shopping_price_lookup": {
+      "wrong_click_path": 15,
+      "success": 17,
+      "invalid_tool_call": 1
+    },
+    "v2_shopping_color_category": {
+      "success": 7,
+      "invalid_tool_call": 1,
+      "wrong_candidate_after_filter": 24,
+      "format_error": 1
+    },
+    "v2_shopping_under_100_lowest_price": {
+      "wrong_candidate_after_filter": 33
+    },
+    "v2_course_code": {
+      "success": 23,
+      "wrong_click_path": 10
+    },
+    "v2_course_title": {
+      "success": 31,
+      "wrong_click_path": 2
+    },
+    "v2_course_department_highest_rating": {
+      "success": 5,
+      "wrong_candidate_after_filter": 22,
+      "invalid_tool_call": 6
+    },
+    "v2_course_department_credits_highest_rating": {
+      "success": 11,
+      "wrong_click_path": 2,
+      "wrong_candidate_after_filter": 20
+    }
+  },
+  "examples": {
+    "wrong_candidate_after_filter": [
+      {
+        "task_id": "v2_eval_00001",
+        "instruction": "Start from page v2_eval_c_shop_home. Filter to products under 100 dollars and find the highest rated candidate. Submit the answer after opening the matching detail.",
+        "error_type": "wrong_candidate_after_filter",
+        "reason": "model_clicks=['el_c19hmi03fh', 'el_0dqd1nvrk2']; expert_clicks=['el_c19hmi03fh', 'el_809fsp8r28']",
+        "success": false,
+        "final_answer": "MoveSense Lite",
+        "target_answer": "FocusLamp Max",
+        "model_clicks": [
+          "el_c19hmi03fh",
+          "el_0dqd1nvrk2"
+        ],
+        "expert_clicks": [
+          "el_c19hmi03fh",
+          "el_809fsp8r28"
+        ],
+        "template": "v2_shopping_under_100_highest_rating",
+        "difficulty": "hard",
+        "page_type": "shopping"
+      },
+      {
+        "task_id": "v2_eval_00002",
+        "instruction": "Start from page v2_eval_c_shop_home. Filter to bluetooth earbuds and find the lowest priced candidate. Return the exact answer.",
+        "error_type": "wrong_candidate_after_filter",
+        "reason": "model_clicks=['el_p9y0ixwxna', 'el_8na1ffgjqq']; expert_clicks=['el_p9y0ixwxna', 'el_ha3nynznzi']",
+        "success": false,
+        "final_answer": "EchoBud Flex",
+        "target_answer": "BassFlow Mini",
+        "model_clicks": [
+          "el_p9y0ixwxna",
+          "el_8na1ffgjqq"
+        ],
+        "expert_clicks": [
+          "el_p9y0ixwxna",
+          "el_ha3nynznzi"
+        ],
+        "template": "v2_shopping_category_lowest_price",
+        "difficulty": "hard",
+        "page_type": "shopping"
+      },
+      {
+        "task_id": "v2_eval_00003",
+        "instruction": "Start from page v2_eval_c_shop_home. Using the visible page information, among mechanical keyboard products under 100 dollars, find the highest rated one. Submit the answer after opening the matching detail.",
+        "error_type": "wrong_candidate_after_filter",
+        "reason": "model_clicks=['el_qzffv4s7md', 'el_zotdsgly9u']; expert_clicks=['el_qzffv4s7md', 'el_8y6wmolhaz']",
+        "success": false,
+        "final_answer": "CodeKeys Lite",
+        "target_answer": "QuietKeys Mini",
+        "model_clicks": [
+          "el_qzffv4s7md",
+          "el_zotdsgly9u"
+        ],
+        "expert_clicks": [
+          "el_qzffv4s7md",
+          "el_8y6wmolhaz"
+        ],
+        "template": "v2_shopping_category_budget_highest_rating",
+        "difficulty": "hard",
+        "page_type": "shopping"
+      },
+      {
+        "task_id": "v2_eval_00004",
+        "instruction": "Start from page v2_eval_c_course_home. Please filter to 4 credit courses and find the highest rated Economics candidate. Submit the answer after opening the matching detail.",
+        "error_type": "wrong_candidate_after_filter",
+        "reason": "model_clicks=['el_5jtvni53g4', 'el_3pikfo651k']; expert_clicks=['el_5jtvni53g4', 'el_7g42we5fn1']",
+        "success": false,
+        "final_answer": "HIST350",
+        "target_answer": "ECON360",
+        "model_clicks": [
+          "el_5jtvni53g4",
+          "el_3pikfo651k"
+        ],
+        "expert_clicks": [
+          "el_5jtvni53g4",
+          "el_7g42we5fn1"
+        ],
+        "template": "v2_course_credits_department",
+        "difficulty": "hard",
+        "page_type": "course"
+      },
+      {
+        "task_id": "v2_eval_00005",
+        "instruction": "Start from page v2_eval_c_shop_home. Using the visible page information, filter to mechanical keyboard and find the highest rated candidate.",
+        "error_type": "wrong_candidate_after_filter",
+        "reason": "model_clicks=['el_qzffv4s7md', 'el_zotdsgly9u']; expert_clicks=['el_qzffv4s7md', 'el_qjlv15pgqk']",
+        "success": false,
+        "final_answer": "CodeKeys Lite",
+        "target_answer": "SwitchBoard Pro",
+        "model_clicks": [
+          "el_qzffv4s7md",
+          "el_zotdsgly9u"
+        ],
+        "expert_clicks": [
+          "el_qzffv4s7md",
+          "el_qjlv15pgqk"
+        ],
+        "template": "v2_shopping_category_highest_rating",
+        "difficulty": "hard",
+        "page_type": "shopping"
+      }
+    ],
+    "wrong_click_path": [
+      {
+        "task_id": "v2_eval_00009",
+        "instruction": "Start from page v2_eval_c_shop_home. Using the visible page information, which product costs 229 dollars? Submit the answer after opening the matching detail.",
+        "error_type": "wrong_click_path",
+        "reason": "model_clicks=['el_0x7y1gimc9']; expert_clicks=['el_etfh9rqde2']",
+        "success": false,
+        "final_answer": "TravelMug One",
+        "target_answer": "NoteTab Air",
+        "model_clicks": [
+          "el_0x7y1gimc9"
+        ],
+        "expert_clicks": [
+          "el_etfh9rqde2"
+        ],
+        "template": "v2_shopping_price_lookup",
+        "difficulty": "easy",
+        "page_type": "shopping"
+      },
+      {
+        "task_id": "v2_eval_00027",
+        "instruction": "Start from page v2_eval_c_course_home. Find the course with code ART205. Submit the answer after opening the matching detail.",
+        "error_type": "wrong_click_path",
+        "reason": "model_clicks=['el_5gabdeo0oy']; expert_clicks=['el_tqjv9c93jr']",
+        "success": false,
+        "final_answer": "HIST350",
+        "target_answer": "ART205",
+        "model_clicks": [
+          "el_5gabdeo0oy"
+        ],
+        "expert_clicks": [
+          "el_tqjv9c93jr"
+        ],
+        "template": "v2_course_code",
+        "difficulty": "easy",
+        "page_type": "course"
+      },
+      {
+        "task_id": "v2_eval_00042",
+        "instruction": "Start from page v2_eval_c_course_home. Please find the course with code HIST305. Use the clickable element IDs shown in observations.",
+        "error_type": "wrong_click_path",
+        "reason": "model_clicks=['el_5gabdeo0oy']; expert_clicks=['el_mdkzygmqep']",
+        "success": false,
+        "final_answer": "HIST350",
+        "target_answer": "HIST305",
+        "model_clicks": [
+          "el_5gabdeo0oy"
+        ],
+        "expert_clicks": [
+          "el_mdkzygmqep"
+        ],
+        "template": "v2_course_code",
+        "difficulty": "easy",
+        "page_type": "course"
+      },
+      {
+        "task_id": "v2_eval_00045",
+        "instruction": "Start from page v2_eval_c_course_home. Please within Art, find the highest rated course that has 4 credits. Return the exact answer.",
+        "error_type": "wrong_click_path",
+        "reason": "model_clicks=['el_5gabdeo0oy']; expert_clicks=['el_b34hk5jqvk', 'el_fcbgws1efo']",
+        "success": false,
+        "final_answer": "HIST350",
+        "target_answer": "ART205",
+        "model_clicks": [
+          "el_5gabdeo0oy"
+        ],
+        "expert_clicks": [
+          "el_b34hk5jqvk",
+          "el_fcbgws1efo"
+        ],
+        "template": "v2_course_department_credits_highest_rating",
+        "difficulty": "hard",
+        "page_type": "course"
+      },
+      {
+        "task_id": "v2_eval_00054",
+        "instruction": "Start from page v2_eval_c_shop_home. Using the visible page information, which product costs 19 dollars?",
+        "error_type": "wrong_click_path",
+        "reason": "model_clicks=['el_aolyqzgzfh']; expert_clicks=['el_2oe98kziom']",
+        "success": false,
+        "final_answer": "MiniCanvas",
+        "target_answer": "Commuter Cup",
+        "model_clicks": [
+          "el_aolyqzgzfh"
+        ],
+        "expert_clicks": [
+          "el_2oe98kziom"
+        ],
+        "template": "v2_shopping_price_lookup",
+        "difficulty": "easy",
+        "page_type": "shopping"
+      }
+    ],
+    "invalid_tool_call": [
+      {
+        "task_id": "v2_eval_00025",
+        "instruction": "Start from page v2_eval_c_shop_home. Navigate carefully and find the black bluetooth earbuds. Use the clickable element IDs shown in observations.",
+        "error_type": "invalid_tool_call",
+        "reason": "Element not found: ACTION(el_p9y0ixwxna",
+        "success": false,
+        "final_answer": null,
+        "target_answer": "SoundCore A20",
+        "model_clicks": [
+          "ACTION(el_p9y0ixwxna",
+          "ACTION(el_p9y0ixwxna",
+          "ACTION(el_p9y0ixwxna",
+          "ACTION(el_p9y0ixwxna",
+          "ACTION(el_p9y0ixwxna",
+          "ACTION(el_p9y0ixwxna",
+          "ACTION(el_p9y0ixwxna"
+        ],
+        "expert_clicks": [
+          "el_p9y0ixwxna",
+          "el_7j48bmjxnu"
+        ],
+        "template": "v2_shopping_color_category",
+        "difficulty": "medium",
+        "page_type": "shopping"
+      },
+      {
+        "task_id": "v2_eval_00059",
+        "instruction": "Start from page v2_eval_c_course_home. Using the visible page information, filter to Art and find the highest rated course. Use the clickable element IDs shown in observations.",
+        "error_type": "invalid_tool_call",
+        "reason": "Element not found: Art",
+        "success": false,
+        "final_answer": null,
+        "target_answer": "ART280",
+        "model_clicks": [
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art"
+        ],
+        "expert_clicks": [
+          "el_b34hk5jqvk",
+          "el_a80wo1c4lt"
+        ],
+        "template": "v2_course_department_highest_rating",
+        "difficulty": "hard",
+        "page_type": "course"
+      },
+      {
+        "task_id": "v2_eval_00104",
+        "instruction": "Start from page v2_eval_c_course_home. Please filter to Art and find the highest rated course.",
+        "error_type": "invalid_tool_call",
+        "reason": "Element not found: Art",
+        "success": false,
+        "final_answer": null,
+        "target_answer": "ART280",
+        "model_clicks": [
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art"
+        ],
+        "expert_clicks": [
+          "el_b34hk5jqvk",
+          "el_a80wo1c4lt"
+        ],
+        "template": "v2_course_department_highest_rating",
+        "difficulty": "hard",
+        "page_type": "course"
+      },
+      {
+        "task_id": "v2_eval_00127",
+        "instruction": "Start from page v2_eval_c_course_home. Please filter to Art and find the course at Tue 14:00. Return the exact answer.",
+        "error_type": "invalid_tool_call",
+        "reason": "Element not found: Art",
+        "success": false,
+        "final_answer": null,
+        "target_answer": "ART205",
+        "model_clicks": [
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art"
+        ],
+        "expert_clicks": [
+          "el_b34hk5jqvk",
+          "el_fcbgws1efo"
+        ],
+        "template": "v2_course_department_time",
+        "difficulty": "medium",
+        "page_type": "course"
+      },
+      {
+        "task_id": "v2_eval_00239",
+        "instruction": "Start from page v2_eval_c_course_home. Using the visible page information, filter to Art and find the highest rated course. Submit the answer after opening the matching detail.",
+        "error_type": "invalid_tool_call",
+        "reason": "Element not found: Art",
+        "success": false,
+        "final_answer": null,
+        "target_answer": "ART280",
+        "model_clicks": [
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art",
+          "Art"
+        ],
+        "expert_clicks": [
+          "el_b34hk5jqvk",
+          "el_a80wo1c4lt"
+        ],
+        "template": "v2_course_department_highest_rating",
+        "difficulty": "hard",
+        "page_type": "course"
+      }
+    ],
+    "format_error": [
+      {
+        "task_id": "v2_eval_00460",
+        "instruction": "Start from page v2_eval_c_shop_home. Find the black bluetooth earbuds. Use the clickable element IDs shown in observations.",
+        "error_type": "format_error",
+        "reason": "invalid_json",
+        "success": false,
+        "final_answer": "Subtract 1",
+        "target_answer": "SoundCore A20",
+        "model_clicks": [],
+        "expert_clicks": [
+          "el_p9y0ixwxna",
+          "el_7j48bmjxnu"
+        ],
+        "template": "v2_shopping_color_category",
+        "difficulty": "medium",
+        "page_type": "shopping"
+      }
+    ]
+  }
+}

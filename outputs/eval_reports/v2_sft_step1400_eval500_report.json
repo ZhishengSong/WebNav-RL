@@ -1,0 +1,33 @@
+{
+  "num_tasks": 500,
+  "successes": 156,
+  "task_success_rate": 0.312,
+  "final_answer_accuracy": 0.312,
+  "tool_call_format_accuracy": 0.9994791666666667,
+  "invalid_tool_call_rate": 0.04791666666666667,
+  "average_model_steps": 3.84,
+  "average_environment_actions": 3.838,
+  "format_errors": 1,
+  "invalid_tool_calls": 92,
+  "termination_counts": {
+    "submitted": 487,
+    "max_steps": 13
+  },
+  "metadata": {
+    "eval_mode": "transformers_model",
+    "model": "models/qwen2.5-0.5b-instruct",
+    "adapter": "outputs/checkpoints/qwen2_5_0_5b_lora_sft_v2_step1400",
+    "tasks": "tasks/v2/eval_tasks.jsonl",
+    "page_metadata": "pages/generated_pages_v2/metadata.json",
+    "limit": 500,
+    "device": "auto",
+    "max_new_tokens": 96,
+    "max_steps": null,
+    "resume": true,
+    "incremental": true,
+    "temperature": 0.0,
+    "trust_remote_code": false,
+    "completed_tasks": 500,
+    "pending_tasks": 0
+  }
+}

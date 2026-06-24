@@ -81,23 +81,24 @@ V2 结构泛化数据：
 
 V2 使用 train A/B 两种布局和 held-out eval C，所有 element ID 都是随机 token，并在 observation 中显式展示。15 个模板在 train 中各 200 条，重点覆盖排序、筛选和多条件候选比较。
 
-**当前正在进行 Step 12：V2 SFT baseline。**
+**Step 12 V2 SFT baseline 已完成，当前进入 Step 13：V2.1 Candidate-Shuffled SFT。**
 
 ```text
-model: Qwen2.5-0.5B-Instruct
-train data: training/v2/sft_train.jsonl
-next-action examples: 11200
-planned optimizer steps: 1400
-held-out eval: layout C / 500 tasks
+V2 SFT optimizer steps: 1400
+held-out layout C success: 156/500 = 31.2%
+tool-call format accuracy: 99.95%
+correct filter rate: 95.9%
+candidate accuracy after correct filter: 15.0%
+wrong candidate failures: 300
 ```
 
 当前优先级：
 
 ```text
-1. 完成 V2 LoRA SFT step1400
-2. 在 held-out layout C 上跑 500-task eval
-3. 按 15 个模板和 difficulty 做错误分析
-4. 根据 V2 baseline 决定是否进入 V2 GRPO
+1. 生成 candidate-shuffled 多实例训练页面
+2. 解除 position 与 target answer 的相关性
+3. 训练 V2.1 targeted SFT
+4. ranking baseline 稳定非零后再决定是否进入 V2 GRPO
 ```
 
 ---
@@ -690,11 +691,15 @@ SFT + GRPO 比 SFT 有至少一个核心指标提升：
 
 ### 2.5.4 V2 模型实验
 
-- [ ] 完成 V2 SFT step1400（当前进行中）
-- [ ] 在 held-out layout C 上评测 500 tasks
-- [ ] 按 15 个模板统计成功率
-- [ ] 按 easy / medium / hard 统计成功率
-- [ ] 根据 baseline 决定是否启动 V2 GRPO
+- [x] 完成 V2 SFT step1400
+- [x] 在 held-out layout C 上评测 500 tasks
+- [x] 按 15 个模板统计成功率
+- [x] 按 easy / medium / hard 统计成功率
+- [x] 分析 filter / candidate 两阶段 action funnel
+- [x] 识别模板相关 position shortcut
+- [x] 决定暂不启动 V2 GRPO
+- [ ] 实现 V2.1 candidate shuffle 与 counterfactual page instances
+- [ ] 训练 V2.1 targeted SFT
 
 ---
 
@@ -1078,8 +1083,10 @@ technical report
 [x] 写 README、最终报告和面试文档
 [x] 实现 V2 随机 ID 和结构级 held-out split
 [x] 生成 3000/500 V2 tasks 与 11200 action examples
-[ ] 完成 V2 SFT step1400
-[ ] 完成 V2 held-out layout C 500-task eval
+[x] 完成 V2 SFT step1400
+[x] 完成 V2 held-out layout C 500-task eval
+[x] 完成 V2 filter/candidate/position 行为分析
+[ ] 完成 V2.1 candidate-shuffled targeted SFT
 [ ] 画架构图和结果图
 ```
 

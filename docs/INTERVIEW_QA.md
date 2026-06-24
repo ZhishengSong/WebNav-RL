@@ -88,6 +88,14 @@ SFT 和 GRPO rollout 都来自 train split，最终指标只来自 eval split。
 
 V1 的 ID 固定且 observation 不显示 ID，模型可能记住点击映射。V2 使用随机无语义 ID，并在每次 observation 显式显示可点击 ID；train 用布局 A/B，eval 用未见布局 C，且 train/eval ID overlap 为 0。因此 V2 更直接测试 observation grounding 和结构泛化。
 
+### 19. V2 模型结果说明了什么？
+
+V2 SFT 在 held-out layout C 上成功率 31.2%，但格式准确率仍是 99.95%。直接名称和标题查找达到 97.0% 与 93.9%，说明模型会从 observation 复制未见 ID。筛选按钮选择也有 95.9% 正确率，但筛选后的候选准确率只有 15.0%，说明真正的瓶颈是属性比较和位置 shortcut，不是工具格式。
+
+### 20. 为什么不马上用 GRPO 修复 V2？
+
+当前四个最高/最低比较模板成功率为 0，基础 policy 没有形成足够的候选比较能力。此时直接 RL 容易在高方差 reward 下强化随机位置策略。应先用 candidate shuffle 和更多页面实例做 targeted SFT，让位置与答案去相关，再使用 GRPO 微调行为。
+
 ## 简历表述
 
 ### 保守版

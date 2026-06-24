@@ -33,7 +33,7 @@ The controlled server experiment uses the 200-step LoRA SFT adapter as its stabl
 
 The best GRPO-KL run improved success by `+3.5 pp`, but the three training seeds scored `64.0%`, `63.0%`, and `59.5%`. The mean improvement is positive (`+1.67 pp`) but seed variance remains substantial, so the result is reported as preliminary positive evidence rather than a stable significant gain.
 
-V2 environment/data generation is now ready for the next training round. It adds randomized visible element IDs, two seen train layouts, one structurally held-out eval layout, balanced targeted comparison tasks, and 3,500 expert-verified trajectories. No V2 model result is claimed yet.
+V2 adds randomized visible element IDs, two seen train layouts, one structurally held-out eval layout, balanced targeted comparison tasks, and 3,500 expert-verified trajectories. The first V2 SFT baseline scored `31.2%` on 500 held-out-layout tasks with `99.95%` tool-call format accuracy. Behavior analysis shows `95.9%` correct filter selection but only `15.0%` candidate accuracy after a correct filter, revealing positional shortcuts rather than reliable attribute comparison.
 
 ## Key Results
 
@@ -48,6 +48,7 @@ V2 environment/data generation is now ready for the next training round. It adds
 | Minimal GRPO prototype | 20 tasks | `45%` success | Training loop works, but tiny/no-KL prototype is not yet an improvement. |
 | Server GRPO-KL | 3 training seeds, 200-task eval | best `64.0%`, mean `62.17%` vs SFT `60.5%` | Positive mean signal, but seed variance remains substantial. |
 | V2 data readiness | 3,000 train + 500 held-out eval | `3,500/3,500` expert success, zero train/eval ID overlap | Tests structural generalization instead of fixed-ID memorization. |
+| V2 SFT baseline | 500 held-out-layout tasks | `31.2%` success, `99.95%` format accuracy | Protocol and filter selection generalize; candidate comparison does not. |
 
 ## Main Components
 
@@ -68,6 +69,7 @@ V2 environment/data generation is now ready for the next training round. It adds
 | V2 pages | `pages/v2_generator.py` | Builds three layouts with random visible element IDs and distractors. |
 | V2 tasks | `tasks/v2_task_generator.py` | Creates balanced targeted tasks with a held-out structural split. |
 | V2 pipeline | `scripts/run_v2_data.py` | Generates pages/tasks, verifies expert trajectories, and builds SFT data. |
+| V2 behavior analysis | `eval/v2_behavior_analysis.py` | Measures filter accuracy, candidate accuracy, and positional selection bias. |
 
 ## Important Artifacts
 
@@ -83,6 +85,8 @@ V2 environment/data generation is now ready for the next training round. It adds
 | GRPO prototype adapter | `outputs/checkpoints/qwen2_5_0_5b_lora_grpo_proto_step5` |
 | Final multi-seed analysis | `outputs/eval_reports/grpo_multiseed_analysis.md` |
 | Downloaded server artifacts | `artifacts/server_runs/2026-06-24` |
+| V2 SFT eval report | `outputs/eval_reports/v2_sft_step1400_eval500_report.json` |
+| V2 behavior analysis | `outputs/eval_reports/v2_sft_step1400_behavior_analysis.md` |
 
 `models/` and `.python_deps/` are intentionally ignored by git.
 
@@ -139,6 +143,7 @@ The detailed step-by-step notes are in `docs/`:
 - `docs/STEP_09_GRPO_WITH_KL.md`: reference-policy KL constraint for the GRPO trainer.
 - `docs/STEP_10_SERVER_GRPO_KL_EXPERIMENT.md`: server-scale GRPO-KL result and paired analysis.
 - `docs/STEP_11_V2_ENVIRONMENT.md`: randomized IDs, multi-layout pages, balanced tasks, and held-out split.
+- `docs/STEP_12_V2_SFT_BASELINE.md`: first held-out-layout model baseline and positional shortcut analysis.
 - `docs/FINAL_PROJECT_REPORT.md`: consolidated final technical report.
 - `docs/INTERVIEW_QA.md`: interview narrative, questions, and honest resume wording.
 - `docs/SERVER_RUNBOOK.md`: server upload and GRPO-KL experiment runbook.
@@ -152,8 +157,8 @@ The strongest way to describe the project is:
 
 ## Next Work
 
-- Train the first V2 SFT baseline and measure performance on the held-out layout C.
-- Compare V2 fixed-layout and structural-generalization accuracy by template.
+- Generate many shuffled train page instances so candidate positions cannot be memorized.
+- Train a V2.1 SFT baseline before attempting V2 GRPO.
 - Reduce the `60%` zero-advantage group rate through harder tasks or more diverse sampling.
 - Add early stopping and stronger drift monitoring; full-pass training increased invalid calls without improving success.
 - Re-run the improved data/reward design on a 1.5B model only after the environment is more diverse.

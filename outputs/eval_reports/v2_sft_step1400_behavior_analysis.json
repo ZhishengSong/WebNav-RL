@@ -1,0 +1,284 @@
+{
+  "trajectories_path": "artifacts\\server_runs\\2026-06-24-v2\\outputs\\trajectories\\v2_sft_step1400_eval500_trajectories.jsonl",
+  "tasks_path": "tasks\\v2\\eval_tasks.jsonl",
+  "metadata_path": "pages\\generated_pages_v2\\metadata.json",
+  "summary": {
+    "num_tasks": 500,
+    "successes": 156,
+    "success_rate": 0.312,
+    "direct_tasks": 132,
+    "filtered_tasks": 368,
+    "correct_filters": 353,
+    "correct_filter_rate": 0.9592391304347826,
+    "candidate_attempts_after_correct_filter": 353,
+    "correct_candidates_after_correct_filter": 53,
+    "candidate_accuracy_after_correct_filter": 0.1501416430594901,
+    "wrong_candidate_rows": 300,
+    "wrong_candidate_valid_position": 300,
+    "wrong_candidate_first_position": 111,
+    "wrong_candidate_first_position_rate": 0.37
+  },
+  "error_counts": {
+    "wrong_candidate_after_filter": 300,
+    "success": 156,
+    "wrong_click_path": 30,
+    "invalid_tool_call": 13,
+    "format_error": 1
+  },
+  "by_difficulty": {
+    "easy": {
+      "success": 103,
+      "wrong_click_path": 28,
+      "invalid_tool_call": 1
+    },
+    "hard": {
+      "wrong_candidate_after_filter": 254,
+      "success": 40,
+      "wrong_click_path": 2,
+      "invalid_tool_call": 6
+    },
+    "medium": {
+      "wrong_candidate_after_filter": 46,
+      "success": 13,
+      "invalid_tool_call": 6,
+      "format_error": 1
+    }
+  },
+  "model_candidate_position_counts": {
+    "1": 135,
+    "12": 1,
+    "2": 108,
+    "3": 5,
+    "4": 70,
+    "9": 34
+  },
+  "expert_candidate_position_counts": {
+    "1": 58,
+    "10": 2,
+    "11": 3,
+    "12": 3,
+    "15": 33,
+    "2": 62,
+    "3": 55,
+    "4": 56,
+    "5": 3,
+    "6": 19,
+    "7": 19,
+    "8": 34,
+    "9": 6
+  },
+  "wrong_candidate_position_counts": {
+    "1": 111,
+    "12": 1,
+    "2": 100,
+    "3": 2,
+    "4": 55,
+    "9": 31
+  },
+  "by_template": {
+    "v2_course_code": {
+      "total": 33,
+      "successes": 23,
+      "success_rate": 0.696969696969697,
+      "error_counts": {
+        "success": 23,
+        "wrong_click_path": 10
+      },
+      "candidate_position_counts": {},
+      "first_position_rate": null
+    },
+    "v2_course_credits_department": {
+      "total": 34,
+      "successes": 6,
+      "success_rate": 0.17647058823529413,
+      "error_counts": {
+        "wrong_candidate_after_filter": 28,
+        "success": 6
+      },
+      "candidate_position_counts": {
+        "1": 15,
+        "12": 1,
+        "9": 18
+      },
+      "first_position_rate": 0.4411764705882353
+    },
+    "v2_course_credits_highest_rating": {
+      "total": 33,
+      "successes": 0,
+      "success_rate": 0.0,
+      "error_counts": {
+        "wrong_candidate_after_filter": 33
+      },
+      "candidate_position_counts": {
+        "1": 17,
+        "9": 16
+      },
+      "first_position_rate": 0.5151515151515151
+    },
+    "v2_course_department_credits_highest_rating": {
+      "total": 33,
+      "successes": 11,
+      "success_rate": 0.3333333333333333,
+      "error_counts": {
+        "success": 11,
+        "wrong_click_path": 2,
+        "wrong_candidate_after_filter": 20
+      },
+      "candidate_position_counts": {
+        "1": 6,
+        "2": 19,
+        "3": 4,
+        "4": 2
+      },
+      "first_position_rate": 0.1935483870967742
+    },
+    "v2_course_department_highest_rating": {
+      "total": 33,
+      "successes": 5,
+      "success_rate": 0.15151515151515152,
+      "error_counts": {
+        "success": 5,
+        "wrong_candidate_after_filter": 22,
+        "invalid_tool_call": 6
+      },
+      "candidate_position_counts": {
+        "1": 5,
+        "2": 12,
+        "4": 10
+      },
+      "first_position_rate": 0.18518518518518517
+    },
+    "v2_course_department_time": {
+      "total": 33,
+      "successes": 6,
+      "success_rate": 0.18181818181818182,
+      "error_counts": {
+        "wrong_candidate_after_filter": 22,
+        "success": 6,
+        "invalid_tool_call": 5
+      },
+      "candidate_position_counts": {
+        "1": 6,
+        "2": 10,
+        "3": 1,
+        "4": 11
+      },
+      "first_position_rate": 0.21428571428571427
+    },
+    "v2_course_title": {
+      "total": 33,
+      "successes": 31,
+      "success_rate": 0.9393939393939394,
+      "error_counts": {
+        "success": 31,
+        "wrong_click_path": 2
+      },
+      "candidate_position_counts": {},
+      "first_position_rate": null
+    },
+    "v2_shopping_category_budget_highest_rating": {
+      "total": 34,
+      "successes": 7,
+      "success_rate": 0.20588235294117646,
+      "error_counts": {
+        "wrong_candidate_after_filter": 27,
+        "success": 7
+      },
+      "candidate_position_counts": {
+        "1": 20,
+        "4": 14
+      },
+      "first_position_rate": 0.5882352941176471
+    },
+    "v2_shopping_category_highest_rating": {
+      "total": 34,
+      "successes": 0,
+      "success_rate": 0.0,
+      "error_counts": {
+        "wrong_candidate_after_filter": 34
+      },
+      "candidate_position_counts": {
+        "1": 22,
+        "4": 12
+      },
+      "first_position_rate": 0.6470588235294118
+    },
+    "v2_shopping_category_lowest_price": {
+      "total": 34,
+      "successes": 11,
+      "success_rate": 0.3235294117647059,
+      "error_counts": {
+        "wrong_candidate_after_filter": 23,
+        "success": 11
+      },
+      "candidate_position_counts": {
+        "1": 23,
+        "4": 11
+      },
+      "first_position_rate": 0.6764705882352942
+    },
+    "v2_shopping_color_category": {
+      "total": 33,
+      "successes": 7,
+      "success_rate": 0.21212121212121213,
+      "error_counts": {
+        "success": 7,
+        "invalid_tool_call": 1,
+        "wrong_candidate_after_filter": 24,
+        "format_error": 1
+      },
+      "candidate_position_counts": {
+        "1": 21,
+        "4": 10
+      },
+      "first_position_rate": 0.6774193548387096
+    },
+    "v2_shopping_name": {
+      "total": 33,
+      "successes": 32,
+      "success_rate": 0.9696969696969697,
+      "error_counts": {
+        "success": 32,
+        "wrong_click_path": 1
+      },
+      "candidate_position_counts": {},
+      "first_position_rate": null
+    },
+    "v2_shopping_price_lookup": {
+      "total": 33,
+      "successes": 17,
+      "success_rate": 0.5151515151515151,
+      "error_counts": {
+        "wrong_click_path": 15,
+        "success": 17,
+        "invalid_tool_call": 1
+      },
+      "candidate_position_counts": {},
+      "first_position_rate": null
+    },
+    "v2_shopping_under_100_highest_rating": {
+      "total": 34,
+      "successes": 0,
+      "success_rate": 0.0,
+      "error_counts": {
+        "wrong_candidate_after_filter": 34
+      },
+      "candidate_position_counts": {
+        "2": 34
+      },
+      "first_position_rate": 0.0
+    },
+    "v2_shopping_under_100_lowest_price": {
+      "total": 33,
+      "successes": 0,
+      "success_rate": 0.0,
+      "error_counts": {
+        "wrong_candidate_after_filter": 33
+      },
+      "candidate_position_counts": {
+        "2": 33
+      },
+      "first_position_rate": 0.0
+    }
+  }
+}

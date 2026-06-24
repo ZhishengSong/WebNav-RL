@@ -225,8 +225,8 @@ seed 7：
 - 11200 train next-action examples。
 - expert 3500/3500 成功，train/eval ID overlap 为 0。
 
-这一步只证明 V2 数据正确可用，不代表模型已经通过结构泛化评测。V2 模型结果将在后续单独报告。
+第一轮 V2 SFT 已完成：held-out layout C 上成功率 31.2%，格式准确率 99.95%。模型能稳定选择正确筛选控件（95.9%），但筛选后的候选准确率只有 15.0%。这说明协议和部分 observation grounding 已泛化，而数值比较与候选选择仍依赖训练位置模式。
 
 ## 15. 最终一句话
 
-WebNav-RL 已完成从可验证环境、专家数据、LoRA SFT 到 GRPO-KL 和多 seed 统计分析的端到端闭环；最佳 run 从 60.5% 提升到 64.0%，三 seed 平均为 62.17%。V2 又进一步建立了随机 ID 和 held-out layout 数据集，下一步将验证这些改进能否转化为真实的结构泛化能力。
+WebNav-RL 已完成从可验证环境、专家数据、LoRA SFT 到 GRPO-KL 和多 seed 统计分析的端到端闭环。V2 进一步证明模型能在未见随机 ID 上保持工具格式和直接实体定位，但候选比较受到明显位置捷径影响；下一步将通过多实例 shuffle 数据消除这一 shortcut。

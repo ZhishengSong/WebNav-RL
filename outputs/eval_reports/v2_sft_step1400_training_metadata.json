@@ -1,0 +1,192 @@
+{
+  "model": "models/qwen2.5-0.5b-instruct",
+  "train_data": "training/v2/sft_train.jsonl",
+  "rows": 3000,
+  "next_action_examples": 11200,
+  "epochs": 1,
+  "max_seq_len": 2048,
+  "batch_size": 2,
+  "gradient_accumulation_steps": 4,
+  "optimizer_steps": 1400,
+  "learning_rate": 0.0002,
+  "lora_r": 8,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "logs": [
+    {
+      "epoch": 1,
+      "optimizer_step": 1,
+      "global_step": 4,
+      "loss": 0.9961216896772385
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 50,
+      "global_step": 200,
+      "loss": 0.06516232527792454
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 100,
+      "global_step": 400,
+      "loss": 0.0454858485609293
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 150,
+      "global_step": 600,
+      "loss": 0.005246353161055595
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 200,
+      "global_step": 800,
+      "loss": 0.011208202195120975
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 250,
+      "global_step": 1000,
+      "loss": 0.010544372620643117
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 300,
+      "global_step": 1200,
+      "loss": 0.01180394935363438
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 350,
+      "global_step": 1400,
+      "loss": 0.007868478991440497
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 400,
+      "global_step": 1600,
+      "loss": 0.023310466523980722
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 450,
+      "global_step": 1800,
+      "loss": 0.0004947917550452985
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 500,
+      "global_step": 2000,
+      "loss": 0.07002900404040702
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 550,
+      "global_step": 2200,
+      "loss": 0.012620335750398226
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 600,
+      "global_step": 2400,
+      "loss": 0.000869876574142836
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 650,
+      "global_step": 2600,
+      "loss": 0.008702753810212016
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 700,
+      "global_step": 2800,
+      "loss": 0.020819792174734175
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 750,
+      "global_step": 3000,
+      "loss": 0.01693271737167379
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 800,
+      "global_step": 3200,
+      "loss": 0.009398621245054528
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 850,
+      "global_step": 3400,
+      "loss": 0.02371649001725018
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 900,
+      "global_step": 3600,
+      "loss": 0.006983019906328991
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 950,
+      "global_step": 3800,
+      "loss": 0.006468950166890863
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1000,
+      "global_step": 4000,
+      "loss": 0.0195127326369402
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1050,
+      "global_step": 4200,
+      "loss": 0.0009039716533152387
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1100,
+      "global_step": 4400,
+      "loss": 0.005845757783390582
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1150,
+      "global_step": 4600,
+      "loss": 0.004967550150468014
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1200,
+      "global_step": 4800,
+      "loss": 0.007850989932194352
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1250,
+      "global_step": 5000,
+      "loss": 0.004251953432685696
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1300,
+      "global_step": 5200,
+      "loss": 0.025016868516104296
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1350,
+      "global_step": 5400,
+      "loss": 0.013100375377689488
+    },
+    {
+      "epoch": 1,
+      "optimizer_step": 1400,
+      "global_step": 5600,
+      "loss": 0.008603943366324529
+    }
+  ],
+  "total_batches_available": 5600
+}
