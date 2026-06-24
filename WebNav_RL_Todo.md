@@ -30,56 +30,75 @@
 → Error Analysis / README / Demo
 ```
 
-## 1.1 当前进度快照（2026-06-22）
+## 1.1 当前进度快照（2026-06-24）
 
-当前仓库已经完成 **V0 环境 Demo**、**V1 数据准备**和**模型评测基础设施**，还没有运行真实 Base/SFT 模型实验，也没有进入 GRPO 阶段。
+当前仓库已经完成：
 
-已验证结果：
+```text
+V0 本地环境与工具闭环
+V1 1000-task 数据、Qwen2.5-0.5B LoRA SFT 与完整评测
+Reward / Error Analysis / Group Rollout
+Reference-policy KL 的 GRPO-style LoRA 更新
+3 个训练 seed 的 200-task 配对评测
+V2 随机 ID、多布局、结构级 held-out 数据环境
+```
+
+V1 受控服务器实验：
+
+| Run | Success rate | Delta vs SFT |
+| --- | ---: | ---: |
+| SFT baseline | 60.5% | - |
+| GRPO-KL seed 7 | 64.0% | +3.5 pp |
+| GRPO-KL seed 17 | 63.0% | +2.5 pp |
+| GRPO-KL seed 29 | 59.5% | -1.0 pp |
+
+多 seed 汇总：
+
+```text
+GRPO-KL mean success rate: 62.17%
+sample standard deviation: 2.36 pp
+mean delta vs SFT: +1.67 pp
+best-seed McNemar p-value: 0.1435
+```
+
+严谨结论：GRPO-KL 存在初步正向信号，但 seed 方差明显，尚未证明稳定显著提升。
+
+V2 结构泛化数据：
 
 ```json
 {
-  "num_tasks": 1000,
-  "train_tasks": 800,
-  "eval_tasks": 200,
-  "train_sft_examples": 800,
-  "eval_sft_examples": 200,
-  "success_rate": 1.0,
+  "pages": 210,
+  "train_tasks": 3000,
+  "eval_tasks": 500,
+  "templates": 15,
+  "train_next_action_examples": 11200,
+  "expert_successes": 3500,
+  "expert_path_target_matches": 3500,
   "invalid_actions": 0,
-  "avg_steps": 3.167
+  "train_eval_element_id_overlap": 0
 }
 ```
 
-当前完成产物：
+V2 使用 train A/B 两种布局和 held-out eval C，所有 element ID 都是随机 token，并在 observation 中显式展示。15 个模板在 train 中各 200 条，重点覆盖排序、筛选和多条件候选比较。
+
+**当前正在进行 Step 12：V2 SFT baseline。**
 
 ```text
-pages/generated_pages/*.html
-pages/generated_pages/metadata.json
-tasks/all_tasks.jsonl
-tasks/train_tasks.jsonl
-tasks/eval_tasks.jsonl
-outputs/trajectories/expert_train_trajectories.jsonl
-outputs/trajectories/expert_eval_trajectories.jsonl
-training/sft_train.jsonl
-training/sft_eval.jsonl
-rollout/parser.py
-rollout/model_runner.py
-rollout/transformers_generator.py
-eval/evaluate.py
-eval/metrics.py
-scripts/run_eval.py
-outputs/eval_reports/eval_report.json
+model: Qwen2.5-0.5B-Instruct
+train data: training/v2/sft_train.jsonl
+next-action examples: 11200
+planned optimizer steps: 1400
+held-out eval: layout C / 500 tasks
 ```
 
-下一步优先级：
+当前优先级：
 
 ```text
-1. 准备本地或云端 GPU 环境，运行 Qwen Base model eval
-2. 编写 LoRA SFT 训练脚本
-3. 跑 Base vs SFT eval
-4. 实现 reward function，为 GRPO 做准备
+1. 完成 V2 LoRA SFT step1400
+2. 在 held-out layout C 上跑 500-task eval
+3. 按 15 个模板和 difficulty 做错误分析
+4. 根据 V2 baseline 决定是否进入 V2 GRPO
 ```
-
-评测管线自检结果：200 条 eval task 全部成功，tool-call format accuracy 为 100%，invalid tool call rate 为 0，平均模型步数为 3.185。该结果来自 oracle expert replay，仅用于验证 parser、dispatch、rollout 和 metrics，不代表 Base 模型能力。
 
 ---
 
@@ -419,13 +438,13 @@ Qwen2.5-0.5B-Instruct
 
 Todo：
 
-- [ ] 加载 base model
-- [ ] 加载 tokenizer
-- [ ] 设置 chat template
-- [ ] 写 LoRA 配置
-- [ ] 写 SFT 训练脚本
+- [x] 加载 base model
+- [x] 加载 tokenizer
+- [x] 设置 chat template
+- [x] 写 LoRA 配置
+- [x] 写 SFT 训练脚本
 
-当前状态：尚未接入真实模型。下一步建议优先补 `training/sft_train.py`，目标模型先选 Qwen2.5-0.5B-Instruct 或 Qwen3-0.6B。
+当前实现：已接入 Qwen2.5-0.5B-Instruct，并完成 V1 step200 SFT、服务器复现和 V2 step1400 训练准备。
 
 建议只做 LoRA，不做全参训练。
 
@@ -441,10 +460,11 @@ Todo：
 
 Todo：
 
-- [ ] 跑 1–3 epoch
-- [ ] 保存 checkpoint
-- [ ] 记录 loss 曲线
-- [ ] 保存训练配置
+- [x] 跑 V1 LoRA SFT
+- [x] 保存 checkpoint
+- [x] 记录 loss 日志
+- [x] 保存训练 metadata
+- [ ] 完成 V2 LoRA SFT step1400（当前进行中）
 
 建议配置：
 
@@ -472,13 +492,14 @@ Invalid Tool Call Rate
 Todo：
 
 - [x] 写 rollout runner
-- [ ] 让 base model 跑 eval tasks
-- [ ] 让 SFT model 跑 eval tasks
-- [ ] 比较指标
+- [x] 让 base model 跑 eval tasks
+- [x] 让 SFT model 跑 eval tasks
+- [x] 比较指标
 - [x] 输出 `eval_report.json`
 - [x] 保存失败案例
+- [ ] 完成 V2 held-out layout C 的 500-task SFT eval
 
-当前状态：已实现严格 `<tool_call>{...}</tool_call>` parser、ToolRegistry dispatch、模型多步 rollout、Transformers 模型适配器、format/invalid/success/step 指标、eval report 输出和失败轨迹保存。已用 200 条 oracle expert replay 完成端到端自检；下一步需要加载真实 Qwen Base 模型运行固定 eval set。
+当前状态：V1 Base/SFT/GRPO 已完成完整对比。V2 eval runner 已支持 `--metadata`，并通过 held-out layout expert replay smoke；待 V2 SFT checkpoint 完成后运行正式 500-task eval。
 
 完成标准：
 
@@ -516,11 +537,12 @@ reward = 0
 
 Todo：
 
-- [ ] 实现 format reward
-- [ ] 实现 final answer reward
-- [ ] 实现 step penalty
-- [ ] 实现 invalid action penalty
-- [ ] 保存每条 trajectory 的 reward breakdown
+- [x] 实现 format reward
+- [x] 实现 path reward
+- [x] 实现 final answer reward
+- [x] 实现 step penalty
+- [x] 实现 invalid action / no-submit penalty
+- [x] 保存每条 trajectory 的 reward breakdown
 
 Reward breakdown 示例：
 
@@ -544,13 +566,13 @@ GRPO 需要对同一个 prompt 采样多个 response。
 
 Todo：
 
-- [ ] 支持 `group_size = 4`
-- [ ] 同一个 task 采样 4 条 trajectory
-- [ ] 每条 trajectory 独立执行环境
-- [ ] 记录 reward
-- [ ] 记录 response
-- [ ] 记录 tool calls
-- [ ] 支持 rollout cache
+- [x] 支持 `group_size = 4`
+- [x] 同一个 task 采样多条 trajectory
+- [x] 每条 trajectory 独立执行环境
+- [x] 记录 reward
+- [x] 记录 response
+- [x] 记录 tool calls
+- [x] 支持 incremental / resume rollout cache
 
 建议第一版配置：
 
@@ -569,13 +591,14 @@ max tokens: 512–1024
 
 Todo：
 
-- [ ] 准备 GRPO dataset
-- [ ] 写 reward function wrapper
-- [ ] 接入模型生成
-- [ ] 计算 group relative advantage
-- [ ] LoRA 更新
-- [ ] 保存 checkpoint
-- [ ] 记录 reward 曲线
+- [x] 准备 grouped rollout dataset
+- [x] 写 reward function wrapper
+- [x] 接入模型生成
+- [x] 计算 group relative advantage
+- [x] 加入 frozen reference-policy KL
+- [x] LoRA 更新
+- [x] 保存 checkpoint
+- [x] 记录 policy / KL / advantage 日志
 
 训练目标不是 SOTA，而是证明：
 
@@ -607,13 +630,15 @@ Final Answer Accuracy
 
 Todo：
 
-- [ ] 固定 eval set
-- [ ] 跑 Base model
-- [ ] 跑 SFT model
-- [ ] 跑 SFT + GRPO model
-- [ ] 生成对比表格
+- [x] 固定独立 eval set
+- [x] 跑 Base model
+- [x] 跑 SFT model
+- [x] 跑 SFT + GRPO model
+- [x] 生成对比表格
 - [ ] 生成柱状图
-- [ ] 保存失败案例
+- [x] 保存失败案例
+- [x] 运行 3 个 GRPO training seed
+- [x] 做 McNemar 配对与模板级分析
 
 完成标准：
 
@@ -623,6 +648,53 @@ SFT + GRPO 比 SFT 有至少一个核心指标提升：
 - invalid tool call rate 降低
 - average step count 降低
 ```
+
+---
+
+# Version 2.5：V2 结构泛化数据版
+
+## 目标
+
+修复 V1 固定 element ID 和同布局随机切分的问题，验证 observation-grounded navigation。
+
+### 2.5.1 页面与结构切分
+
+- [x] 扩展到 24 个商品和 24 门课程
+- [x] 生成 210 个页面
+- [x] 实现 train A/B 两种布局
+- [x] 实现 held-out eval C 布局
+- [x] 使用随机无语义 element ID
+- [x] 在 observation 中显式展示 clickable ID
+- [x] 加入 help / map / delivery 等干扰入口
+- [x] 验证 train/eval element ID overlap = 0
+
+### 2.5.2 Targeted Tasks
+
+- [x] 增加排序、筛选、多条件候选任务
+- [x] 构造 15 个模板
+- [x] train 每个模板严格 200 条
+- [x] eval 每个模板 33–34 条
+- [x] 生成 3000 train + 500 eval
+- [x] 生成 11200 train next-action examples
+- [x] 检查价格、属性和 ranking target 无歧义
+
+### 2.5.3 数据验证
+
+- [x] expert success 3500/3500
+- [x] expert path target match 3500/3500
+- [x] invalid actions = 0
+- [x] 通用 eval runner 支持 `--metadata`
+- [x] GRPO rollout 支持 `--metadata`
+- [x] held-out layout C expert smoke 20/20
+- [x] 写 `docs/STEP_11_V2_ENVIRONMENT.md`
+
+### 2.5.4 V2 模型实验
+
+- [ ] 完成 V2 SFT step1400（当前进行中）
+- [ ] 在 held-out layout C 上评测 500 tasks
+- [ ] 按 15 个模板统计成功率
+- [ ] 按 easy / medium / hard 统计成功率
+- [ ] 根据 baseline 决定是否启动 V2 GRPO
 
 ---
 
@@ -649,10 +721,10 @@ Level 4：需要对比多个候选项
 
 Todo：
 
-- [ ] 给每个任务打 difficulty label
-- [ ] 每个 difficulty 至少 100 条 eval
-- [ ] 分别统计成功率
-- [ ] 分析模型在哪类任务上提升最大
+- [x] 给任务打 easy / medium / hard label
+- [x] V2 生成 500 条均衡模板 eval tasks
+- [ ] 完成 V2 模型后分别统计 difficulty 成功率
+- [x] V1 已完成 template-level 提升/退化分析
 
 ---
 
@@ -714,10 +786,10 @@ element_id 错误
 
 Todo：
 
-- [ ] 写 error classifier
-- [ ] 统计错误占比
-- [ ] 保存代表性案例
-- [ ] 在 README 中展示错误分析
+- [x] 写 error classifier
+- [x] 统计错误占比
+- [x] 保存代表性案例
+- [x] 在 README / docs 中展示错误分析
 
 ---
 
@@ -740,12 +812,13 @@ reward function
 
 Todo：
 
-- [ ] 写完整 README
+- [x] 写完整 README
 - [ ] 画系统架构图
 - [ ] 画训练流程图
 - [ ] 画指标对比图
 - [ ] 录制 demo gif
-- [ ] 整理一段简历描述
+- [x] 整理简历描述和面试问答
+- [x] 写最终技术报告与 Step 01–11 文档
 
 ---
 
@@ -981,7 +1054,7 @@ technical report
 
 # 最小可行 Todo 总表
 
-如果想马上开工，就按这个清单做。前半部分已经完成，当前应从模型 rollout / SFT 开始推进：
+当前最小可行主线已经完成，正在推进 V2 结构泛化模型实验：
 
 ```text
 [x] 创建 WebNav-RL repo
@@ -995,14 +1068,18 @@ technical report
 [x] 转成 SFT 数据
 [x] 写模型 rollout parser
 [x] 写 Base model eval runner
-[ ] 运行 Qwen Base model eval
-[ ] 用 Qwen 0.5B/0.6B 做 LoRA SFT
-[ ] 评估 Base vs SFT
-[ ] 实现 reward function
-[ ] 接入 GRPO
-[ ] 评估 Base vs SFT vs GRPO
-[ ] 做错误分析
-[ ] 写 README
+[x] 运行 Qwen Base model eval
+[x] 用 Qwen2.5-0.5B 做 LoRA SFT
+[x] 评估 Base vs SFT
+[x] 实现 reward function
+[x] 接入 GRPO-KL
+[x] 评估 Base vs SFT vs GRPO
+[x] 做多 seed、配对和错误分析
+[x] 写 README、最终报告和面试文档
+[x] 实现 V2 随机 ID 和结构级 held-out split
+[x] 生成 3000/500 V2 tasks 与 11200 action examples
+[ ] 完成 V2 SFT step1400
+[ ] 完成 V2 held-out layout C 500-task eval
 [ ] 画架构图和结果图
 ```
 
